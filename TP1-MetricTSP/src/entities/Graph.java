@@ -1,4 +1,4 @@
-package graph;
+package entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Graph {
 		edges[destiny].add(new Edge(destiny, origin, cost));
 	}
 	
-	public int getRoot() {
+	public int root() {
 		return ROOT;
 	}
 	

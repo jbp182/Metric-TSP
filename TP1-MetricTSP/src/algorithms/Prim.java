@@ -1,48 +1,48 @@
 package algorithms;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import graph.Edge;
-import graph.Graph;
-import tree.Node;
-import tree.Tree;
+import entities.Edge;
+import entities.Graph;
+import entities.Node;
 
 public class Prim {
 	
 	private Graph graph;
 	private int numNodes;
 	
-	private Edge[] mst;
-	private int mstSize;
 	private boolean[] selected;
 	private int[] cost;
 	private Edge[] via;
 	private Queue<Edge> connected;
 	
+	private Node[] nodes;
+	
 	public Prim(Graph graph) {
 		this.graph = graph;
 		numNodes = graph.numNodes();
 		
-		mst = new Edge[numNodes - 1];
-		mstSize = 0;
 		selected = new boolean[numNodes];
 		cost = new int[numNodes];
 		via = new Edge[numNodes];
 		connected = new PriorityQueue<Edge>(numNodes);
+		
+		nodes = new Node[numNodes];
+		for (int i = 0; i < numNodes; i++)
+			nodes[i] = null;
 	}
 	
-	public Tree mstPrim() {
+	public Node mstPrim() {
 		
 		for (int i = 0; i < numNodes; i++) {
 			selected[i] = false;
 			cost[i] = Integer.MAX_VALUE;
 		}
 		
-		int origin = graph.getRoot();
+		int origin = graph.root();
+		nodes[origin] = new Node(0, null);
 		cost[origin] = 0;
 		connected.add(new Edge(origin, origin, 0));
 		
@@ -50,26 +50,19 @@ public class Prim {
 			int node = connected.remove().destiny();
 			if (!selected[node]) {
 				selected[node] = true;
-				if (node != origin)
-					mst[mstSize++] = via[node];
+				if (node != origin) {
+					Edge viaEdge = via[node];
+					int from = viaEdge.origin();
+					int cost = viaEdge.cost();
+					Node n = new Node(cost, nodes[from]);
+					nodes[from].addChild(n);
+					nodes[node] = n;
+				}
 				exploreNode(node);
 			}
 		} while (!connected.isEmpty());
 		
-		//return mst;
-		return mstTree();
-	}
-
-	private Tree mstTree() {
-		Node root = new Node(0, null);
-		Node n = root;
-		for(int i = 0; i < mstSize; i++) {
-			Edge e = mst[i];
-//			n.addChild(new Node());
-		}
-		
-		
-		return null;
+		return nodes[origin];
 	}
 
 	private void exploreNode(int source) {

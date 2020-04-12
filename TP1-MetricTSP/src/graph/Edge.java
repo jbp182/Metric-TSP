@@ -2,19 +2,25 @@ package graph;
 
 public class Edge implements Comparable<Edge> {
 	
+	private int origin;
 	private int destiny;
 	private int cost;
 	
-	public Edge(int destiny, int cost) {
+	public Edge(int origin, int destiny, int cost) {
+		this.origin = origin;
 		this.destiny = destiny;
 		this.cost = cost;
 	}
 	
-	public int getDestiny() {
+	public int origin() {
+		return origin;
+	}
+	
+	public int destiny() {
 		return destiny;
 	}
 	
-	public int getCost() {
+	public int cost() {
 		return cost;
 	}
 

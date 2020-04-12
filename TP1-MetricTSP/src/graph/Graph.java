@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Graph {
 	
-	private static final int ROOT = 1;
+	private static final int ROOT = 0;
 	
 	private List<Edge>[] edges;
 	private int numNodes;
@@ -20,15 +20,15 @@ public class Graph {
 	}
 	
 	public void addEdge(int origin, int destiny, int cost) {
-		edges[origin].add(new Edge(destiny, cost));
-		edges[destiny].add(new Edge(origin, cost));
+		edges[origin].add(new Edge(origin, destiny, cost));
+		edges[destiny].add(new Edge(destiny, origin, cost));
 	}
 	
 	public int getRoot() {
 		return ROOT;
 	}
 	
-	public int getNumNodes() {
+	public int numNodes() {
 		return numNodes;
 	}
 	

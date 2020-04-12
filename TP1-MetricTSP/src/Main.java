@@ -1,6 +1,7 @@
+import java.util.Iterator;
 import java.util.Scanner;
 
-import algorithms.Prim;
+import algorithms.GreedyTSP;
 import entities.Graph;
 
 public class Main {
@@ -46,8 +47,17 @@ public class Main {
 	}
 	
 	private static void greedy(Graph g) {
-		Prim p = new Prim(g);
-		p.mstPrim();
+		GreedyTSP greedy = new GreedyTSP(g);
+		greedy.solve();
+		int cost = greedy.getTotalCost();
+		Iterator<Integer> pre = greedy.preorderTraversal();
+		
+		System.out.println(GREEDY);
+		System.out.println("Computed cost: " + cost);
+		System.out.printf("Computed solution: ");
+		while (pre.hasNext())
+			System.out.printf("%d ", pre.next());
+		System.out.println();
 	}
 	
 	private static void christofides(Graph g) {

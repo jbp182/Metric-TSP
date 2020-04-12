@@ -6,7 +6,7 @@ import java.util.Queue;
 
 import entities.Edge;
 import entities.Graph;
-import entities.Node;
+import entities.TreeNode;
 
 public class Prim {
 	
@@ -18,7 +18,7 @@ public class Prim {
 	private Edge[] via;
 	private Queue<Edge> connected;
 	
-	private Node[] nodes;
+	private TreeNode[] nodes;
 	
 	public Prim(Graph graph) {
 		this.graph = graph;
@@ -29,12 +29,12 @@ public class Prim {
 		via = new Edge[numNodes];
 		connected = new PriorityQueue<Edge>(numNodes);
 		
-		nodes = new Node[numNodes];
+		nodes = new TreeNode[numNodes];
 		for (int i = 0; i < numNodes; i++)
 			nodes[i] = null;
 	}
 	
-	public Node mstPrim() {
+	public TreeNode mstPrim() {
 		
 		for (int i = 0; i < numNodes; i++) {
 			selected[i] = false;
@@ -42,7 +42,7 @@ public class Prim {
 		}
 		
 		int origin = graph.root();
-		nodes[origin] = new Node(0, null);
+		nodes[origin] = new TreeNode(origin, 0, null);
 		cost[origin] = 0;
 		connected.add(new Edge(origin, origin, 0));
 		
@@ -54,7 +54,7 @@ public class Prim {
 					Edge viaEdge = via[node];
 					int from = viaEdge.origin();
 					int cost = viaEdge.cost();
-					Node n = new Node(cost, nodes[from]);
+					TreeNode n = new TreeNode(node, cost, nodes[from]);
 					nodes[from].addChild(n);
 					nodes[node] = n;
 				}

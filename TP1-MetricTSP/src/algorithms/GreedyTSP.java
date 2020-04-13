@@ -20,8 +20,8 @@ public class GreedyTSP {
 		Prim p = new Prim(graph);
 		TreeNode mst = p.mstPrim();
 		
-		Tree t = new Tree(mst);
-		preorder = t.preorderTraversal();
+		Tree t = new Tree(mst, graph);
+		preorder = t.preorderHamiltonian();
 		totalCost = t.getPreorderCost();
 	}
 

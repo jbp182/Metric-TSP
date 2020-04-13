@@ -35,5 +35,15 @@ public class Graph {
 	public Iterator<Edge> incidentEdges(int node) {
 		return edges[node].iterator();
 	}
+	
+	public int getEdgeCost(int origin, int destiny) {
+		Iterator<Edge> it = edges[origin].iterator();
+		while(it.hasNext()) {
+			Edge e = it.next();
+			if (e.destiny() == destiny)
+				return e.cost();
+		}
+		return -1;		// not supposed to happen, because it's a complete graph
+	}
 
 }

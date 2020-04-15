@@ -16,20 +16,31 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		
 		// build graph
+		System.out.printf("Enter number of nodes: ");
 		int numNodes = in.nextInt(); in.nextLine();
+
 		Graph g = new Graph(numNodes);
-		
-		// add edges
+		System.out.println("Created nodes 0 to " + (numNodes-1));
+
 		int numEdges = numNodes * (numNodes - 1) / 2;
-		for (int i = 0; i < numEdges; i++) {
-			int origin = in.nextInt();
-			int destiny = in.nextInt();
-			int cost = in.nextInt();
-			in.nextLine();
-			
-			g.addEdge(origin, destiny, cost);
+		System.out.printf("\nEnter information for %d edges. Format: x y cost\n", numEdges);
+		// add edges
+		try {
+			for (int i = 0; i < numEdges; i++) {
+				int origin = in.nextInt();
+				int destiny = in.nextInt();
+				int cost = in.nextInt();
+				in.nextLine();
+				
+				g.addEdge(origin, destiny, cost);
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR: wrong format");;
+			System.exit(1);
 		}
 		
+		
+		System.out.println("\nAlgorithm to execute: greedy or christofides?");
 		// execute wanted algorithm
 		String alg = in.nextLine().toUpperCase().trim();
 		switch(alg) {
@@ -52,6 +63,7 @@ public class Main {
 		int cost = greedy.getTotalCost();
 		Iterator<Integer> pre = greedy.preorderTraversal();
 		
+		System.out.println("\n-------------------------");
 		System.out.println(GREEDY);
 		System.out.println("Computed cost: " + cost);
 		System.out.printf("Computed solution: ");

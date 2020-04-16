@@ -3,7 +3,6 @@ package entities;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Stack;
 
 public class Tree {
 	
@@ -32,7 +31,7 @@ public class Tree {
 	}
 	
 	private void computePreorderAndCost() {
-		Stack<TreeNode> stack = new Stack<TreeNode>();
+		Deque<TreeNode> stack = new LinkedList<TreeNode>();
 		stack.push(root);
 
 		preorderCost = 0;

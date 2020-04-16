@@ -30,8 +30,6 @@ public class Prim {
 		connected = new PriorityQueue<Edge>(numNodes);
 		
 		nodes = new TreeNode[numNodes];
-		for (int i = 0; i < numNodes; i++)
-			nodes[i] = null;
 	}
 	
 	public TreeNode mstPrim() {

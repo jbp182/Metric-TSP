@@ -2,10 +2,12 @@ package entities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Graph {
 	
 	private static final int ROOT = 0;
+	private static final int MAX_DISTANCE = 1000;
 	
 	private List<Edge>[] edges;
 	private int numNodes;
@@ -45,5 +47,29 @@ public class Graph {
 		}
 		return -1;		// not supposed to happen, because it's a complete graph
 	}
+	
+	/*
+	 * There is only one edge between two nodes
+	 */
+	public void generateRandomCompleteGraph() {
+		Random random = new Random(); 
+		
+		int numEdges = this.edges.length;
+		for (int i = 0; i < numEdges; i++) {
+			int origin = i;
+			int destiny = -1;
+			int cost = -1;
+			for(int j = i+1; j < numEdges;j++) {
+					destiny = j;
+					cost = random.nextInt(MAX_DISTANCE);
+					this.addEdge(origin, destiny, cost);
+				
+			}
+
+			
+
+		}
+	}
+
 
 }

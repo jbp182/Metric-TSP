@@ -106,9 +106,17 @@ public class Main {
 
 	private static void christofides(Graph g) {
 		Christofides c = new Christofides(g);
-		Graph result =c.solve();
-		 
-		showGraph(result);
+		c.solve();
+		int cost = c.getTotalCost();
+		Iterator<Integer> pre = c.getIterator();
+
+		System.out.println("\n-------------------------");
+		System.out.println(GREEDY);
+		System.out.println("Computed cost: " + cost);
+		System.out.printf("Computed solution: ");
+		while (pre.hasNext())
+			System.out.printf("%d ", pre.next());
+		System.out.println();
 	}
 	/*
 	 *

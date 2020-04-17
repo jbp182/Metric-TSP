@@ -48,6 +48,26 @@ public class Graph {
 		return -1;		// not supposed to happen, because it's a complete graph
 	}
 	
+	
+	public int nodeDegree(int node) {
+		return this.edges[node].size();
+	}
+	
+	public boolean isOddDegreeNode(int node) {
+		return (nodeDegree(node) % 2) == 1;
+	}
+	
+	public boolean hasEdge(Edge edge) {
+		//this method could be better
+		try {
+		edges[edge.origin()].get(edge.destiny()).equals(edge);
+		}catch (IndexOutOfBoundsException e) {
+			//this means the edge does not exist in this array
+			return false;
+		}
+		return	true;
+	}
+	
 	/*
 	 * There is only one edge between two nodes
 	 */
@@ -68,6 +88,13 @@ public class Graph {
 
 			
 
+		}
+	}
+	
+	public void printEdges() {
+		for(List<Edge> el: edges) {
+			for(Edge e: el)
+				System.out.printf("origin:%d,destiny %d, cost %d \n",e.origin(),e.destiny(),e.cost());
 		}
 	}
 

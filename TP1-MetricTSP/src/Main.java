@@ -1,7 +1,9 @@
 import java.util.Iterator;
 import java.util.Scanner;
 
+import algorithms.Christofides;
 import algorithms.GreedyTSP;
+import algorithms.PrimGraph;
 import entities.Graph;
 
 public class Main {
@@ -74,13 +76,17 @@ public class Main {
 	}
 
 	private static void showGraph(Graph g) {
+		int sum = 0;
+		
 		for (int i = 0; i < g.numNodes(); i++) {
 			Iterator<entities.Edge> it = g.incidentEdges(i);
 			while (it.hasNext()) {
 				entities.Edge edge = it.next();
 				System.out.printf("Origin: %d,Destiny: %d,Cost: %d\n", edge.origin(), edge.destiny(), edge.cost());
+				sum += edge.cost();
 			}
 		}
+		System.out.println("total:"+sum/2);
 	}
 
 	private static void greedy(Graph g) {
@@ -99,7 +105,48 @@ public class Main {
 	}
 
 	private static void christofides(Graph g) {
-
+		Christofides c = new Christofides(g);
+		Graph result =c.solve();
+		 
+		showGraph(result);
 	}
+	/*
+	 *
+0 1 1
+0 2 3
+0 3 3
+0 4 1
+1 2 2
+2 3 4
+1 4 1
+2 3 4
+2 4 3
+3 4 3
+	 */
+	
+/*
+1 2 1
+1 3 1
+1 4 2
+2 3 2
+2 4 1
+3 4 1
+0 1 1
+0 2 1
+0 3 1
+0 4 1
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 
 }

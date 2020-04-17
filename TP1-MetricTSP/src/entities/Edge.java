@@ -4,9 +4,9 @@ public class Edge implements Comparable<Edge> {
 	
 	private int origin;
 	private int destiny;
-	private int cost;
+	private double cost;
 	
-	public Edge(int origin, int destiny, int cost) {
+	public Edge(int origin, int destiny, double cost) {
 		this.origin = origin;
 		this.destiny = destiny;
 		this.cost = cost;
@@ -20,14 +20,14 @@ public class Edge implements Comparable<Edge> {
 		return destiny;
 	}
 	
-	public int cost() {
+	public double cost() {
 		return cost;
 	}
 
 	@Override
 	public int compareTo(Edge other) {
 		
-		return this.cost - other.cost;
+		return (int) (this.cost - other.cost);
 		
 	}
 

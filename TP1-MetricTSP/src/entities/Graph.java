@@ -21,7 +21,7 @@ public class Graph {
 			edges[i] = new LinkedList<Edge>();
 	}
 	
-	public void addEdge(int origin, int destiny, int cost) {
+	public void addEdge(int origin, int destiny, double cost) {
 		edges[origin].add(new Edge(origin, destiny, cost));
 		edges[destiny].add(new Edge(destiny, origin, cost));
 	}
@@ -38,7 +38,7 @@ public class Graph {
 		return edges[node].iterator();
 	}
 	
-	public int getEdgeCost(int origin, int destiny) {
+	public double getEdgeCost(int origin, int destiny) {
 		Iterator<Edge> it = edges[origin].iterator();
 		while(it.hasNext()) {
 			Edge e = it.next();
@@ -94,7 +94,7 @@ public class Graph {
 	public void printEdges() {
 		for(List<Edge> el: edges) {
 			for(Edge e: el)
-				System.out.printf("origin:%d,destiny %d, cost %d \n",e.origin(),e.destiny(),e.cost());
+				System.out.printf("origin:%d,destiny %d, cost %f \n",e.origin(),e.destiny(),e.cost());
 		}
 	}
 

@@ -1,6 +1,7 @@
 import java.util.Iterator;
 import java.util.Scanner;
 
+import algorithms.Christofides;
 import algorithms.GreedyTSP;
 import entities.Graph;
 
@@ -12,7 +13,7 @@ public class Main {
 	private static final String NO_SUCH_ALG = "Please choose greedy or christofides algorithm.";
 
 	private static final String AUTOMATIC_GENERATE_ANSWER = "A";
-	private static final String MANUAL_INPUT_ANSWER = "M";
+	
 
 	private static final String EDGE_INFORMATION_FOMART = "Origin: %d,Destiny: %d,Cost: %.1f\n";
 	
@@ -77,7 +78,9 @@ public class Main {
 
 	private static void christofides(Graph g) {
 		// TODO Auto-generated method stub
-		
+		Christofides chris = new Christofides(g);
+		chris.solve();
+		double cost = chris.getTotalCost();
 	}
 
 	private static void showGraph(Graph g) {
@@ -96,7 +99,7 @@ public class Main {
 	private static void greedy(Graph g) {
 		GreedyTSP greedy = new GreedyTSP(g);
 		greedy.solve();
-		int cost = greedy.getTotalCost();
+		double cost = greedy.getTotalCost();
 		Iterator<Integer> pre = greedy.preorderTraversal();
 
 		System.out.println("\n-------------------------");

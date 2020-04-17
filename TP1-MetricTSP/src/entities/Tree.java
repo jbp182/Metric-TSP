@@ -8,7 +8,7 @@ public class Tree {
 	
 	private TreeNode root;
 	private Deque<Integer> preorder;
-	private int preorderCost;
+	private double preorderCost;
 	private Graph graph;
 	
 	public Tree(TreeNode root, Graph graph) {
@@ -19,13 +19,13 @@ public class Tree {
 	}
 	
 	public Iterator<Integer> preorderHamiltonian() {
-		if (preorderCost == -1)
+		if (preorderCost < 0)
 			computePreorderAndCost();
 		return preorder.iterator();
 	}
 	
-	public int getPreorderCost() {
-		if (preorderCost == -1)
+	public double getPreorderCost() {
+		if (preorderCost < 0)
 			computePreorderAndCost();
 		return preorderCost;
 	}

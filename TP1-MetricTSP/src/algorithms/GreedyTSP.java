@@ -10,7 +10,7 @@ public class GreedyTSP {
 	
 	private Graph graph;
 	private Iterator<Integer> preorder;
-	private int totalCost;
+	private double totalCost;
 	
 	public GreedyTSP(Graph g) {
 		this.graph = g;
@@ -29,7 +29,7 @@ public class GreedyTSP {
 		return preorder;
 	}
 	
-	public int getTotalCost() {
+	public double getTotalCost() {
 		return totalCost;
 	}
 

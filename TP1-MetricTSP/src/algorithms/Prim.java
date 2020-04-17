@@ -1,6 +1,5 @@
 package algorithms;
 
-import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -18,7 +17,6 @@ public class Prim {
 	private Edge[] via;
 	private Queue<Edge> connected;
 	
-	private TreeNode[] nodes;
 	
 	public Prim(Graph graph) {
 		this.graph = graph;
@@ -29,11 +27,11 @@ public class Prim {
 		via = new Edge[numNodes];
 		connected = new PriorityQueue<Edge>(numNodes);
 		
-		nodes = new TreeNode[numNodes];
 	}
 	
-	public TreeNode mstPrim() {
-		
+	public TreeNode mstPrimTree() {
+
+		TreeNode[] nodes = new TreeNode[numNodes];
 		for (int i = 0; i < numNodes; i++) {
 			selected[i] = false;
 			cost[i] = Double.MAX_VALUE;
@@ -64,16 +62,46 @@ public class Prim {
 	}
 
 	private void exploreNode(int source) {
-		Iterator<Edge> it = graph.incidentEdges(source);
-		while (it.hasNext()) {
-			Edge e = it.next();
-			int node = e.destiny();
-			if (!selected[node] && e.cost() < cost[node]) {
-				cost[node] = e.cost();
+		double[] edges = graph.incidentEdges(source);
+		for(int node = 0; node < numNodes;node++) {
+			double value = edges[node];
+			if(value > 0)
+			if (!selected[node] && value < cost[node]) {
+				cost[node] = value;
+				Edge e =new Edge(source, node, value);
 				via[node] = e;
 				connected.add(e);
 			}
 		}
+	}
+	
+	public Graph mstPrimGraph() {
+		Graph mstTree = new Graph(numNodes);
+		
+		for (int i = 0; i < numNodes; i++) {
+			selected[i] = false;
+			cost[i] = Double.MAX_VALUE;
+		}
+		
+		int origin = graph.root();
+		cost[origin] = 0;
+		connected.add(new Edge(origin, origin, 0));
+		
+		do {
+			int node = connected.remove().destiny();
+			if (!selected[node]) {
+				selected[node] = true;
+				if (node != origin) {
+					Edge viaEdge = via[node];
+					int from = viaEdge.origin();
+					int to = viaEdge.destiny();
+					double cost = viaEdge.cost();
+					mstTree.addEdge(from,to,cost);
+				}
+				exploreNode(node);
+			}
+		} while (!connected.isEmpty());
+		return mstTree;
 	}
 
 }

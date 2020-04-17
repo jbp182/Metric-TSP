@@ -18,7 +18,7 @@ public class GreedyTSP {
 	
 	public void solve() {
 		Prim p = new Prim(graph);
-		TreeNode mst = p.mstPrim();
+		TreeNode mst = p.mstPrimTree();
 		
 		Tree t = new Tree(mst, graph);
 		preorder = t.preorderHamiltonian();

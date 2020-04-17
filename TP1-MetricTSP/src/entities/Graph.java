@@ -1,23 +1,18 @@
 package entities;
 
 public class Graph {
-	
-	
-
-	
 	private static final int ROOT = 0;
-	private static final int MAX_DISTANCE = 1000;
 
 	private double[][] edges;
 	private int[] sizes;
 	private int numNodes;
 
-	@SuppressWarnings("unchecked")
+	
 	public Graph(int numNodes) {
 		this.numNodes = numNodes;
 	//edges sao initialized as 0 by default
 		edges = new double[numNodes][numNodes];
-	
+		sizes = new int[numNodes];
 	}
 
 	public void addEdge(int origin, int destiny, double cost) {
@@ -58,10 +53,13 @@ public class Graph {
 		int origin = edge.origin();
 		int destiny = edge.destiny();
 		
-		
-		return edges[origin][destiny] > 0 || edges[destiny][origin] > 0 ;
+		return this.hasEdge(origin,destiny);
 	}
 
+	public boolean hasEdge(int origin,int destiny) {
+		return edges[origin][destiny] > 0 || edges[destiny][origin] > 0 ;
+		
+	}
 
 	
 

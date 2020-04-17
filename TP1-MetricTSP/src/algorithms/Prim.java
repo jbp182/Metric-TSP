@@ -14,7 +14,7 @@ public class Prim {
 	private int numNodes;
 	
 	private boolean[] selected;
-	private int[] cost;
+	private double[] cost;
 	private Edge[] via;
 	private Queue<Edge> connected;
 	
@@ -25,7 +25,7 @@ public class Prim {
 		numNodes = graph.numNodes();
 		
 		selected = new boolean[numNodes];
-		cost = new int[numNodes];
+		cost = new double[numNodes];
 		via = new Edge[numNodes];
 		connected = new PriorityQueue<Edge>(numNodes);
 		
@@ -36,7 +36,7 @@ public class Prim {
 		
 		for (int i = 0; i < numNodes; i++) {
 			selected[i] = false;
-			cost[i] = Integer.MAX_VALUE;
+			cost[i] = Double.MAX_VALUE;
 		}
 		
 		int origin = graph.root();
@@ -51,7 +51,7 @@ public class Prim {
 				if (node != origin) {
 					Edge viaEdge = via[node];
 					int from = viaEdge.origin();
-					int cost = viaEdge.cost();
+					double cost = viaEdge.cost();
 					TreeNode n = new TreeNode(node, cost, nodes[from]);
 					nodes[from].addChild(n);
 					nodes[node] = n;

@@ -7,13 +7,13 @@ import java.util.LinkedList;
 public class TreeNode {
 	
 	private int element;
-	private int cost;
+	private double cost;
 	private TreeNode parent;
 	private Deque<TreeNode> children;
 	
 	// TODO ver q metodos nao servem de nada
 	
-	public TreeNode(int element, int cost, TreeNode parent) {
+	public TreeNode(int element, double cost, TreeNode parent) {
 		this.element = element;
 		this.cost = cost;
 		this.parent = parent;
@@ -24,7 +24,7 @@ public class TreeNode {
 		return element;
 	}
 	
-	public int cost() {
+	public double cost() {
 		return cost;
 	}
 	

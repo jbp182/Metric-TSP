@@ -11,7 +11,7 @@ import entities.Graph;
 public class Christofides {
 	private Graph originalGraph;
 
-	private int totalCost;
+	private double totalCost;
 
 	public Christofides(Graph g) {
 		this.originalGraph = g;
@@ -46,7 +46,7 @@ public class Christofides {
 			int origin = minEdge.origin();
 			if (oddNodes.remove(origin) != null) {
 				int destiny = minEdge.destiny();
-				int cost = minEdge.cost();
+				double cost = minEdge.cost();
 				mst.addEdge(origin, destiny, cost);
 				oddNodes.remove(destiny);
 			}
@@ -70,7 +70,7 @@ public class Christofides {
 
 	}
 
-	public int getTotalCost() {
+	public double getTotalCost() {
 		return totalCost;
 	}
 

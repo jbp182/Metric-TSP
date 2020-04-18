@@ -52,7 +52,7 @@ public class Main {
 				}
 			} catch (Exception e) {
 				System.out.println("ERROR: wrong format");
-				;
+				e.printStackTrace();
 				System.exit(1);
 			}
 		}
@@ -80,7 +80,19 @@ public class Main {
 		// TODO Auto-generated method stub
 		Christofides chris = new Christofides(g);
 		chris.solve();
+	
 		double cost = chris.getTotalCost();
+		int[] result = chris.getWay();
+		
+		
+		System.out.println("\n-------------------------");
+		System.out.println(CHRISTOFIDES);
+		System.out.println("Computed cost: " + cost);
+		System.out.printf("Computed solution: ");
+		for (int i = 0; i < result.length; i++) {
+			System.out.printf("%d ", result[i]);
+		}
+		
 	}
 
 	private static void showGraph(Graph g) {
@@ -137,15 +149,6 @@ public class Main {
 0 2 1
 0 3 1
 0 4 1
-
-
-
-
-
-
-
-
-
 
 
 

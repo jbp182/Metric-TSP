@@ -1,5 +1,6 @@
 package entities;
 
+
 public class Graph {
 	private static final int ROOT = 0;
 
@@ -7,6 +8,13 @@ public class Graph {
 	private int[] sizes;
 	private int numNodes;
 
+	
+	public Graph() {
+		//nothing
+		edges = null;
+		sizes = null;
+		numNodes =0;
+	}
 	
 	public Graph(int numNodes) {
 		this.numNodes = numNodes;
@@ -43,6 +51,7 @@ public class Graph {
 	public int nodeDegree(int node) {		
 		return sizes[node];
 	}
+	
 	public boolean isOddDegreeNode(int node) {		
 		return (sizes[node] % 2) ==  1;
 	}
@@ -60,6 +69,8 @@ public class Graph {
 		return edges[origin][destiny] > 0 || edges[destiny][origin] > 0 ;
 		
 	}
+	
+	
 
 	
 

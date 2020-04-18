@@ -63,8 +63,7 @@ public class Christofides {
 			for (int destiny = 0; destiny < mst.numNodes(); destiny++) {
 				double cost = incidentsEdge[destiny];
 				// the condition may not matter matter the result
-				// !mst.hasEdge(node,destiny)
-				if (cost > 0 && !mst.hasEdge(node, destiny) && oddNodes.containsKey(destiny)) {
+				if (cost > 0 && oddNodes.containsKey(destiny)) {
 					edges.add(new Edge(node, destiny, cost));
 				}
 			}

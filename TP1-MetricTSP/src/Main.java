@@ -20,10 +20,10 @@ public class Main {
 
 	private static final String EDGE_INFORMATION_FOMART = "Origin: %d,Destiny: %d,Cost: %.1f\n";
 
-	public static void main() throws IOException {
+	public static void main(String[] args) throws IOException {
 
 	
-		String fileName = "x";
+		String fileName = "text1C.txt";
 		
 		BufferedReader 	in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
 

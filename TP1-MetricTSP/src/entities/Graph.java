@@ -70,6 +70,14 @@ public class Graph {
 		
 	}
 	
+	public double[][] getMatriz(){
+		double[][] mat = new double[numNodes][];
+		for(int i =0; i < mat.length;i++) {
+			mat[i] = edges[i].clone();
+		}
+		return mat;
+	}
+	
 	
 
 	

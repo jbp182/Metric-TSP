@@ -1,13 +1,12 @@
 package algorithms;
 
-import java.util.HashMap;
+import java.util.Deque;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
-import entities.Edge;
+
 import entities.Graph;
 
 public class Christofides {
@@ -16,16 +15,20 @@ public class Christofides {
 
 	private int[] finalRoute;
 
+	private List<Integer> circuit;
+	
 	public Christofides(Graph g) {
 		this.originalGraph = g;
 
 		Prim p = new Prim(originalGraph);
 		mst = p.mstPrimGraph();
 		finalRoute = new int[g.numNodes() + 1];
+		circuit = new LinkedList<Integer>();
+		
 
 	}
 
-	public Graph solve() {
+	public void solve() {
 		int numNodes = mst.numNodes();
 		Map<Integer, Integer> oddNodes = new HashMap<Integer, Integer>(numNodes);
 		for (int i = 0; i < numNodes; i++) {
@@ -36,29 +39,25 @@ public class Christofides {
 		}
 		makePerfeitaMatching(mst, oddNodes);
 		makeEulerCircuit();
-		return mst;
+		makeRoute();
 
 	}
+	private void makeMinimumPerfeitaMatching(Graph mst, Set<Integer> oddNodes) {
+		Graph subGraphOfOddNodes = findSubgraphOfOddNodes(mst, oddNodes);
+		int[] vertexs = (new HungarianAlgorithm(subGraphOfOddNodes.getMatriz())).execute();
+		for (int i = 0; i < vertexs.length; i++) {
+			int origin = i;
+			int destiny = vertexs[i];
+			double cost = originalGraph.getEdgeCost(origin, destiny);
+			mst.addEdge(origin, destiny, cost);
 
-	private void makePerfeitaMatching(Graph mst, Map<Integer, Integer> oddNodes) {
-		Queue<Edge> oddNodesEdges = findEdgeOfOddNodes(mst, oddNodes);
-		// the edges are not in mst
-		while (!oddNodes.isEmpty()) {
-			Edge minEdge = oddNodesEdges.remove();
-			int origin = minEdge.origin();
-			if (oddNodes.remove(origin) != null) {
-				int destiny = minEdge.destiny();
-				double cost = minEdge.cost();
-				mst.addEdge(origin, destiny, cost);
-				oddNodes.remove(destiny);
-			}
 		}
 	}
 
 	// oddnodes.size is always a even number
-	private Queue<Edge> findEdgeOfOddNodes(Graph mst, Map<Integer, Integer> oddNodes) {
-		Queue<Edge> edges = new PriorityQueue<Edge>(); // todo: here should have a initial size
-		for (Integer node : oddNodes.keySet()) {
+	private Graph findSubgraphOfOddNodes(Graph mst, Set<Integer> oddNodes) {
+		Graph subgraph = new Graph(mst.numNodes());
+		for (Integer node : oddNodes) {
 			double[] incidentsEdge = originalGraph.incidentEdges(node);
 			for (int destiny = 0; destiny < mst.numNodes(); destiny++) {
 				double cost = incidentsEdge[destiny];
@@ -69,83 +68,85 @@ public class Christofides {
 			}
 		}
 
-		return edges;
+		return subgraph;
 
 	}
 
 	// Heirholzer's Algorithm
-	private void makeEulerCircuit() {
-		
-		int currentSize = 0;
-		int lastNode = mst.root();
-		int numNodes = mst.numNodes();
-		finalRoute[currentSize++] = lastNode;
-		//0,......,0
-		//0,......,numNodes
-		//1,......,numNodes+1
-		
-		finalRoute[numNodes] = lastNode;
-		
-		
-		Set<Integer> nodes = new HashSet<Integer>();
 
-		int[] numEdgesForEachNode = new int[numNodes];
+	private void makeEulerCircuit() {
+		int numNodes = mst.numNodes();
+
+
+		int[] numNodesEachLine = new int[numNodes];
 		double[][] edges = new double[numNodes][];
 
 		for (int i = 0; i < numNodes; i++) {
 			edges[i] = mst.incidentEdges(i);
-			numEdgesForEachNode[i] = mst.nodeDegree(i);
+			numNodesEachLine[i] = mst.nodeDegree(i);
 		}
+
+
+		Deque<Integer> curr_path = new LinkedList<Integer>();
+
+		// vector to store final circuit
+
+		// start from any vertex
+		
+		int lastNode = mst.root(); // Current vertex
 		int destiny = 0;
-		nodes.add(lastNode);
-		while (currentSize < numNodes) {
-			if (numEdgesForEachNode[lastNode] > 0) {
-				double cost;
-				destiny = 0;
-				for(; (cost = edges[lastNode][destiny]) <= 0 ; destiny++);
-				
-				if (nodes.contains(destiny)) {
-					// it is added to array
-				} else {
-					finalRoute[currentSize++] = destiny;
-					
-				}
-				
-				numEdgesForEachNode[lastNode]--;
+		curr_path.push(lastNode);
+		while (!curr_path.isEmpty()) {
+			
+			// If there's remaining edge
+			if (numNodesEachLine[lastNode] > 0) {
+				// Push the vertex
+				curr_path.push(lastNode);
+
+				for (destiny = 0; (edges[lastNode][destiny]) <= 0; destiny++)
+					;
+
 				edges[lastNode][destiny] = 0;
+				numNodesEachLine[lastNode]--;
 
 				lastNode = destiny;
-			} else {
-				//impossible
-				if (nodes.contains(destiny)) {
-					// it is added to array
-				} else {
-					//finalRoute[currentSize++] = destiny;
-					//the graph is connected so, here is unachievable
-				}
-				// Back-tracking
-				while(numEdgesForEachNode[lastNode] <= 0)
-					lastNode = (lastNode +1) % numNodes; 
+			}
+			else {
+				circuit.add(lastNode);
+				lastNode = curr_path.pop();
 			}
 		}
-
 
 	}
 
 	public double getTotalCost() {
 		double sum = 0;
-		int origin =-1;
-		int destiny =-1;
-		
-		for (int i = 0; i < finalRoute.length-1; i++) {
-			origin =finalRoute[i];
+		int origin = -1;
+		int destiny = -1;
 
-			destiny =finalRoute[i+1];
+		for (int i = 0; i < finalRoute.length - 1; i++) {
+			origin = finalRoute[i];
+
+			destiny = finalRoute[i + 1];
 			sum += originalGraph.getEdgeCost(origin, destiny);
 		}
 		return sum;
 	}
 
+	
+	private void makeRoute() {
+		Set<Integer> vs = new HashSet<Integer>(mst.numNodes());
+		int i = 0;
+		for(int vertex: circuit) {
+			if(vs.add(vertex)) {
+				finalRoute[i++] = vertex;
+				}
+		}
+		
+		finalRoute[i] = mst.root();	
+		
+	}
+	
 	public int[] getWay() {
 		return this.finalRoute.clone();
 	}

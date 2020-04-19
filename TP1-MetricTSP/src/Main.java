@@ -1,10 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import algorithms.Christofides;
 import algorithms.GreedyTSP;
@@ -17,50 +15,38 @@ public class Main {
 
 	private static final String NO_SUCH_ALG = "Please choose greedy or christofides algorithm.";
 
-
 	private static final String EDGE_INFORMATION_FOMART = "Origin: %d,Destiny: %d,Cost: %.1f\n";
 
 	public static void main(String[] args) throws IOException {
 
-	
-		String fileName = "text1C.txt";
-		
-		BufferedReader 	in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
-
-
-		System.out.println("\nAlgorithm to execute: greedy or christofides?");
-		String algorithm = in.readLine().trim().toUpperCase();
-		
 		// build graph
-		System.out.printf("Enter number of nodes: ");
-		int numNodes = Integer.parseInt(in.readLine());
 
-		Graph g = new Graph(numNodes);
-		System.out.println("Created nodes 0 to " + (numNodes - 1));
+		// int numNodes[] = {3,5,10,15,30,50,100};
 
-		int numEdges = numNodes * (numNodes - 1) / 2;
-
-		System.out.printf("\nEnter information for %d edges. Format: x y cost\n", numEdges);
-		// add edges
-		try {
-			for (int i = 0; i < numEdges; i++) {
-				String[] line = in.readLine().split(" ");
-				int origin = Integer.parseInt(line[0]);
-				int destiny = Integer.parseInt(line[1]);
-				int cost = Integer.parseInt(line[2]);
-				g.addEdge(origin, destiny, cost);
-			}
-		} catch (Exception e) {
-			System.out.println("ERROR: wrong format");
-			e.printStackTrace();
-			System.exit(1);
-
+		int numNode = 50;
+		int testNum = 0;
+		final int MAX_TEST_ORDER = 4;
+		String fileName;
+		BufferedReader in;
+		for (; testNum <= MAX_TEST_ORDER; testNum++) {
+			
+			Graph g = new Graph(numNode);
+			fileName = String.format("%dNodesGraph%d.txt", numNode, testNum);
+		//	fileName = "t2.txt";
+			in= new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+			System.out.println("\nThis is "+ fileName);
+			int numEdges = numNode * (numNode - 1) / 2;
+			getMatriz(in, numEdges, g);
+			execute(GREEDY, g);
+			execute(CHRISTOFIDES, g);
+			System.out.println();
+			in.close();
 		}
+	}
 
-
-
+	private static void execute(String algorithm, Graph g) {
 		// execute wanted algorithm
-		showGraph(g);
+
 		switch (algorithm) {
 		case GREEDY:
 			greedy(g);
@@ -72,7 +58,24 @@ public class Main {
 			System.out.println(NO_SUCH_ALG);
 		}
 
-		in.close();
+	}
+
+	private static void getMatriz(BufferedReader in, int numEdges, Graph g) {
+		try {
+			for (int i = 0; i < numEdges; i++) {
+				String[] line = in.readLine().split(" ");
+				int origin = Integer.parseInt(line[0]);
+				int destiny = Integer.parseInt(line[1]);
+				double cost = Double.parseDouble(line[2]);
+				g.addEdge(origin, destiny, cost);
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR: wrong format");
+			e.printStackTrace();
+			System.exit(1);
+
+		}
+
 	}
 
 	private static void christofides(Graph g) {

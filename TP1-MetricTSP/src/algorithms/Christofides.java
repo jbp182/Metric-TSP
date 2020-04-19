@@ -37,14 +37,14 @@ public class Christofides {
 			}
 
 		}
-		makeMinimumPerfeitaMatching(mst, oddNodes);
+		minPerfectMatching(oddNodes);
 		makeEulerCircuit();
 		makeRoute();
 
 	}
 
-	private void makeMinimumPerfeitaMatching(Graph mst, Set<Integer> oddNodes) {
-		Graph subGraphOfOddNodes = findSubgraphOfOddNodes(mst, oddNodes);
+	private void minPerfectMatching(Set<Integer> oddNodes) {
+		Graph subGraphOfOddNodes = findSubgraphOfOddNodes(oddNodes);
 		int[] vertexs = (new HungarianAlgorithm(subGraphOfOddNodes.getMatriz())).execute();
 		for (int i = 0; i < vertexs.length; i++) {
 			int origin = i;
@@ -55,7 +55,7 @@ public class Christofides {
 	}
 
 	// oddnodes.size is always a even number
-	private Graph findSubgraphOfOddNodes(Graph mst, Set<Integer> oddNodes) {
+	private Graph findSubgraphOfOddNodes(Set<Integer> oddNodes) {
 		Graph subgraph = new Graph(mst.numNodes());
 		for (Integer node : oddNodes) {
 			double[] incidentsEdge = originalGraph.incidentEdges(node);

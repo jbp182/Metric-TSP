@@ -73,7 +73,6 @@ public class Christofides {
 	}
 
 	// Heirholzer's Algorithm
-
 	private void makeEulerCircuit() {
 		int numNodes = mst.numNodes();
 
@@ -91,16 +90,13 @@ public class Christofides {
 
 		// vector to store final circuit
 
-		// start from any vertex
-		
+		// start from any vertex	
 		int lastNode = mst.root(); // Current vertex
 		int destiny = 0;
 		curr_path.push(lastNode);
 		while (!curr_path.isEmpty()) {
 			
-			// If there's remaining edge
 			if (numNodesEachLine[lastNode] > 0) {
-				// Push the vertex
 				curr_path.push(lastNode);
 
 				for (destiny = 0; (edges[lastNode][destiny]) <= 0; destiny++)

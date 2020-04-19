@@ -23,7 +23,7 @@ public class Main {
 
 		// int numNodes[] = {3,5,10,15,30,50,100};
 
-		int numNode = 5;
+		int numNode = 50;
 		int testNum = 0;
 		final int MAX_TEST_ORDER = 4;
 		String fileName;

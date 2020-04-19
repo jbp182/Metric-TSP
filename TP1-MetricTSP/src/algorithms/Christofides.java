@@ -78,12 +78,12 @@ public class Christofides {
 		int numNodes = mst.numNodes();
 
 
-		int[] edge_count = new int[numNodes];
+		int[] numNodesEachLine = new int[numNodes];
 		double[][] edges = new double[numNodes][];
 
 		for (int i = 0; i < numNodes; i++) {
 			edges[i] = mst.incidentEdges(i);
-			edge_count[i] = mst.nodeDegree(i);
+			numNodesEachLine[i] = mst.nodeDegree(i);
 		}
 
 
@@ -92,33 +92,28 @@ public class Christofides {
 		// vector to store final circuit
 
 		// start from any vertex
-		curr_path.push(0);
-		int curr_v = 0; // Current vertex
+		
+		int lastNode = mst.root(); // Current vertex
 		int destiny = 0;
+		curr_path.push(lastNode);
 		while (!curr_path.isEmpty()) {
 			
 			// If there's remaining edge
-			if (edge_count[curr_v] > 0) {
+			if (numNodesEachLine[lastNode] > 0) {
 				// Push the vertex
-				curr_path.push(curr_v);
+				curr_path.push(lastNode);
 
-				for (destiny = 0; (edges[curr_v][destiny]) <= 0; destiny++)
+				for (destiny = 0; (edges[lastNode][destiny]) <= 0; destiny++)
 					;
 
-				// Find the next vertex using an edge
-				edges[curr_v][destiny] = 0;
-				// and remove that edge
-				edge_count[curr_v]--;
+				edges[lastNode][destiny] = 0;
+				numNodesEachLine[lastNode]--;
 
-				// Move to next vertex
-				curr_v = destiny;
+				lastNode = destiny;
 			}
-
-			// back-track to find remaining circuit
 			else {
-				circuit.add(curr_v);
-				// Back-tracking
-				curr_v = curr_path.pop();
+				circuit.add(lastNode);
+				lastNode = curr_path.pop();
 			}
 		}
 

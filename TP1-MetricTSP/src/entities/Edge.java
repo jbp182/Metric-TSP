@@ -36,15 +36,22 @@ public class Edge implements Comparable<Edge> {
 	 * Compare two edges
 	 * Assume this is undirected edge
 	 */
-	public boolean equals(Edge other) {
-		if(this.cost == other.cost) {
-			if(other.origin == this.origin && other.destiny == this.destiny
-					||
-					other.destiny == this.origin && other.origin == this.destiny)
-				return true;
-				
-		}
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Edge))
+			return false;
+		
+		Edge other = (Edge)obj;	
+		if(this.cost != other.cost)
+			return false;
+		if ( ( this.origin != other.origin || this.destiny != other.destiny ) 
+				&& (this.origin != other.destiny || this.destiny != other.origin) )
+			return false;
+		
+		return true;
 	}
 	
 }

@@ -64,6 +64,19 @@ public class Christofides {
 		}
 	}
 
+	/*
+	Queue<Edge> oddNodesEdges = findEdgeOfOddNodes(mst, oddNodes);
+	// the edges are not in mst
+	while (!oddNodes.isEmpty()) {
+		Edge minEdge = oddNodesEdges.remove();
+		int origin = minEdge.origin();
+		if (oddNodes.remove(origin) != null) {
+			int destiny = minEdge.destiny();
+			double cost = minEdge.cost();
+			mst.addEdge(origin, destiny, cost);
+			oddNodes.remove(destiny);
+		}*/
+	
 	// odd nodes are always an even number
 	private Graph findSubgraphOfOddNodes(int oddCount, int[] transf) {
 		Graph subgraph = new Graph(oddCount);

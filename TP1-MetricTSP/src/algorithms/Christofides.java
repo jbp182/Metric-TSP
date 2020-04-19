@@ -1,13 +1,10 @@
 package algorithms;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Set;
 
-import entities.Edge;
+import javax.print.attribute.standard.Destination;
+
 import entities.Graph;
 
 public class Christofides {
@@ -40,6 +37,7 @@ public class Christofides {
 
 	}
 
+<<<<<<< Updated upstream
 	private void makePerfeitaMatching(Graph mst, Map<Integer, Integer> oddNodes) {
 		Queue<Edge> oddNodesEdges = findEdgeOfOddNodes(mst, oddNodes);
 		// the edges are not in mst
@@ -52,6 +50,17 @@ public class Christofides {
 				mst.addEdge(origin, destiny, cost);
 				oddNodes.remove(destiny);
 			}
+=======
+	
+	private void makeMinimumPerfeitaMatching(Graph mst, Set<Integer> oddNodes) {
+		Graph subGraphOfOddNodes  = findSubgraphOfOddNodes(mst, oddNodes);
+		int[] vertexs = (new HungarianAlgorithm(subGraphOfOddNodes.getMatriz())).execute();
+		for (int i = 0; i < vertexs.length; i++) {
+			int origin = i;
+			int destiny = vertexs[i];
+			double cost = originalGraph.getEdgeCost(origin, destiny);
+			mst.addEdge(origin,destiny, cost);
+>>>>>>> Stashed changes
 		}
 	}
 
@@ -69,7 +78,7 @@ public class Christofides {
 			}
 		}
 
-		return edges;
+		return subgraph;
 
 	}
 

@@ -24,16 +24,11 @@ public class Graph {
 	}
 
 	public void addEdge(int origin, int destiny, double cost) {
-		if(edges[origin][destiny] == 0 && cost > 0) {
-			sizes[destiny]++;
-			sizes[origin]++;
-		}
-		
-		
 		edges[origin][destiny] = cost;
+		sizes[origin]++;
+		
 		edges[destiny][origin] = cost;
-		
-		
+		sizes[destiny]++;
 		
 	}
 

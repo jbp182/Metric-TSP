@@ -27,34 +27,44 @@ public class Christofides {
 
 	public Graph solve() {
 		int numNodes = mst.numNodes();
-		Set<Integer> oddNodes = new HashSet<Integer>(numNodes);
+		Map<Integer, Integer> oddNodes = new HashMap<Integer, Integer>(numNodes);
 		for (int i = 0; i < numNodes; i++) {
 			if (mst.isOddDegreeNode(i)) {
-				oddNodes.add(i);
+				oddNodes.put(i, 1);
 			}
 
 		}
-		makeMinimumPerfeitaMatching(mst, oddNodes);
+		makePerfeitaMatching(mst, oddNodes);
 		makeEulerCircuit();
 		return mst;
 
 	}
 
-	private void makeMinimumPerfeitaMatching(Graph mst, Set<Integer> oddNodes) {
-		Graph subGraphOfOddNodes  = findSubgraphOfOddNodes(mst, oddNodes);
-		
+	private void makePerfeitaMatching(Graph mst, Map<Integer, Integer> oddNodes) {
+		Queue<Edge> oddNodesEdges = findEdgeOfOddNodes(mst, oddNodes);
+		// the edges are not in mst
+		while (!oddNodes.isEmpty()) {
+			Edge minEdge = oddNodesEdges.remove();
+			int origin = minEdge.origin();
+			if (oddNodes.remove(origin) != null) {
+				int destiny = minEdge.destiny();
+				double cost = minEdge.cost();
+				mst.addEdge(origin, destiny, cost);
+				oddNodes.remove(destiny);
+			}
+		}
 	}
 
 	// oddnodes.size is always a even number
-	private Graph findSubgraphOfOddNodes(Graph mst, Set<Integer> oddNodes) {
-		Graph subgraph = new Graph(oddNodes.size());
-		for (Integer node : oddNodes) {
+	private Queue<Edge> findEdgeOfOddNodes(Graph mst, Map<Integer, Integer> oddNodes) {
+		Queue<Edge> edges = new PriorityQueue<Edge>(); // todo: here should have a initial size
+		for (Integer node : oddNodes.keySet()) {
 			double[] incidentsEdge = originalGraph.incidentEdges(node);
 			for (int destiny = 0; destiny < mst.numNodes(); destiny++) {
 				double cost = incidentsEdge[destiny];
 				// the condition may not matter matter the result
-				if (cost > 0 && oddNodes.contains(destiny)) {
-					subgraph.addEdge(node, destiny, cost);
+				if (cost > 0 && oddNodes.containsKey(destiny)) {
+					edges.add(new Edge(node, destiny, cost));
 				}
 			}
 		}
@@ -90,14 +100,15 @@ public class Christofides {
 		nodes.add(lastNode);
 		while (currentSize < numNodes) {
 			if (numEdgesForEachNode[lastNode] > 0) {
+				double cost;
 				destiny = 0;
-				for(; (edges[lastNode][destiny]) <= 0 ; destiny++);
+				for(; (cost = edges[lastNode][destiny]) <= 0 ; destiny++);
 				
 				if (nodes.contains(destiny)) {
 					// it is added to array
 				} else {
 					finalRoute[currentSize++] = destiny;
-					nodes.add(destiny);
+					
 				}
 				
 				numEdgesForEachNode[lastNode]--;

@@ -33,7 +33,7 @@ public class Graph {
 	}
 
 	public double[] incidentEdges(int node) {
-		return edges[node];
+		return edges[node].clone();
 	}
 
 	public double getEdgeCost(int origin, int destiny) {

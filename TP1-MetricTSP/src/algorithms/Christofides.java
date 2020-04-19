@@ -30,46 +30,54 @@ public class Christofides {
 
 	public void solve() {
 		int numNodes = mst.numNodes();
-		Set<Integer> oddNodes = new HashSet<Integer>(numNodes);
+		//Set<Integer> oddNodes = new HashSet<Integer>(numNodes);
+		boolean[] oddNodes = new boolean[mst.numNodes()];		// filled with false, by default
+		int oddCount = 0;
 		for (int i = 0; i < numNodes; i++) {
 			if (mst.isOddDegreeNode(i)) {
-				oddNodes.add(i);
+				oddNodes[i] = true;
+				oddCount++;
 			}
-
 		}
-		minPerfectMatching(oddNodes);
+		int[] transf = new int[oddCount];
+		int count = 0;
+		for (int i = 0; i < numNodes; i++) {
+			if (oddNodes[i]) {
+				transf[count++] = i;
+			}
+		}
+		
+		minPerfectMatching(oddCount, transf);
 		makeEulerCircuit();
 		makeRoute();
 
 	}
 
-	private void minPerfectMatching(Set<Integer> oddNodes) {
-		Graph subGraphOfOddNodes = findSubgraphOfOddNodes(oddNodes);
-		int[] vertexs = (new HungarianAlgorithm(subGraphOfOddNodes.getMatriz())).execute();
+	private void minPerfectMatching(int oddCount, int[] transf) {
+		Graph subGraphOfOddNodes = findSubgraphOfOddNodes(oddCount, transf);
+		int[] vertexs = (new HungarianAlgorithm(subGraphOfOddNodes.getMatrix())).execute();
 		for (int i = 0; i < vertexs.length; i++) {
-			int origin = i;
-			int destiny = vertexs[i];
+			int origin = transf[i];
+			int destiny = transf[vertexs[i]];
 			double cost = originalGraph.getEdgeCost(origin, destiny);
 			mst.addEdge(origin, destiny, cost);
 		}
 	}
 
-	// oddnodes.size is always a even number
-	private Graph findSubgraphOfOddNodes(Set<Integer> oddNodes) {
-		Graph subgraph = new Graph(mst.numNodes());
-		for (Integer node : oddNodes) {
-			double[] incidentsEdge = originalGraph.incidentEdges(node);
-			for (int destiny = 0; destiny < mst.numNodes(); destiny++) {
-				double cost = incidentsEdge[destiny];
-				// the condition may not matter matter the result
-				if (cost > 0 && oddNodes.contains(destiny)) {
-					subgraph.addEdge(node, destiny, cost);
-				}
+	// odd nodes are always an even number
+	private Graph findSubgraphOfOddNodes(int oddCount, int[] transf) {
+		Graph subgraph = new Graph(oddCount);
+		
+		for (int i = 0; i < oddCount; i++) {
+			// copiar arcos
+			// j = i + 1 porque basta metade dos arcos, 
+			// a outra metade o Graph ja preenche, sao os simetricos
+			for (int j = i + 1; j < oddCount; j++) {
+				double cost = originalGraph.getEdgeCost(transf[i], transf[j]);
+				subgraph.addEdge(i, j, cost);
 			}
 		}
-
 		return subgraph;
-
 	}
 
 	// Heirholzer's Algorithm

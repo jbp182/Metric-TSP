@@ -28,13 +28,8 @@ public class Graph {
 			sizes[destiny]++;
 			sizes[origin]++;
 		}
-		
-		
 		edges[origin][destiny] = cost;
 		edges[destiny][origin] = cost;
-		
-		
-		
 	}
 
 	public int root() {
@@ -75,8 +70,9 @@ public class Graph {
 		
 	}
 	
-	public double[][] getMatriz(){
-		double[][] mat = new double[numNodes][];
+	public double[][] getMatrix(){
+		double[][] mat = new double[numNodes][numNodes];
+		mat = edges.clone();
 		for(int i =0; i < mat.length;i++) {
 			mat[i] = edges[i].clone();
 		}

@@ -33,7 +33,7 @@ public class Main {
 			
 			in = new BufferedReader(new InputStreamReader(new FileInputStream(currentDir+"/"+text)));
 			int numEdges = numNode * (numNode - 1) / 2;
-			getMatriz(in, numEdges, g);
+			getMatrix(in, numEdges, g);
 			sb = new StringBuilder();
 			sb.append(text);
 			sb.append(",");
@@ -51,7 +51,7 @@ public class Main {
 	}
 
 
-	private static void getMatriz(BufferedReader in, int numEdges, Graph g) {
+	private static void getMatrix(BufferedReader in, int numEdges, Graph g) {
 		try {
 			for (int i = 0; i < numEdges; i++) {
 				String[] line = in.readLine().split(" ");
@@ -70,7 +70,6 @@ public class Main {
 	}
 
 	private static double christofides(Graph g) {
-		// TODO Auto-generated method stub
 		Christofides chris = new Christofides(g);
 		chris.solve();
 

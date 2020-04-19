@@ -1,13 +1,11 @@
 package algorithms;
 
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
 import entities.Edge;
 import entities.Graph;
@@ -86,7 +84,7 @@ public class Christofides {
 		for (int i = 0; i < oddCount; i++) {
 			while (!selected[i]) {
 				Edge e = edgesSubgraph[i].remove();
-				if (!selected[e.destiny()]) {
+				if (!selected[e.destiny()] && !mst.hasEdge(transf[i], transf[e.destiny()])) {
 					selected[i] = true;
 					selected[e.destiny()] = true;
 					double cost = originalGraph.getEdgeCost(transf[i], transf[e.destiny()]);
@@ -185,12 +183,13 @@ public class Christofides {
 
 	
 	private void makeRoute() {
-		Set<Integer> vs = new HashSet<Integer>(mst.numNodes());
+		boolean[] visited = new boolean[mst.numNodes()];
 		int i = 0;
 		for(int vertex: circuit) {
-			if(vs.add(vertex)) {
+			if(!visited[vertex]) {
 				finalRoute[i++] = vertex;
-				}
+				visited[vertex] = true;
+			}
 		}
 		
 		finalRoute[i] = mst.root();	

@@ -56,15 +56,6 @@ public class Graph {
 		return (sizes[node] % 2) ==  1;
 	}
 
-
-	public boolean hasEdge(Edge edge) {
-		// this method could be better
-		int origin = edge.origin();
-		int destiny = edge.destiny();
-		
-		return this.hasEdge(origin,destiny);
-	}
-
 	public boolean hasEdge(int origin,int destiny) {
 		return edges[origin][destiny] > 0 || edges[destiny][origin] > 0 ;
 		

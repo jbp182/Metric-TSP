@@ -7,14 +7,6 @@ public class Graph {
 	private double[][] edges;
 	private int[] sizes;
 	private int numNodes;
-
-	
-	public Graph() {
-		//nothing
-		edges = null;
-		sizes = null;
-		numNodes =0;
-	}
 	
 	public Graph(int numNodes) {
 		this.numNodes = numNodes;
@@ -41,7 +33,7 @@ public class Graph {
 	}
 
 	public double[] incidentEdges(int node) {
-		return edges[node].clone();
+		return edges[node];
 	}
 
 	public double getEdgeCost(int origin, int destiny) {

@@ -1,7 +1,6 @@
 package algorithms;
 
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -18,6 +17,8 @@ public class Christofides {
 
 	private List<Integer> circuit;
 	
+	private double totalCost;
+	
 	public Christofides(Graph g) {
 		this.originalGraph = g;
 
@@ -25,8 +26,8 @@ public class Christofides {
 		mst = p.mstPrimGraph();
 		finalRoute = new int[g.numNodes() + 1];
 		circuit = new LinkedList<Integer>();
+		totalCost = 0;
 		
-
 	}
 
 	public void solve() {
@@ -40,11 +41,6 @@ public class Christofides {
 			}
 		}
 		
-		System.out.println("\n ODD NODES");
-		for (int i = 0; i < originalGraph.numNodes(); i++) {
-				System.out.printf(oddNodes[i] + " ");
-		}
-		System.out.println();
 		
 		int[] transf = new int[oddCount];
 		int count = 0;
@@ -53,38 +49,22 @@ public class Christofides {
 				transf[count++] = i;
 			}
 		}
-		
-		System.out.println("\n TRANSF");
-		for (int i = 0; i < oddCount; i++) {
-				System.out.printf("transf[%d]=%d ; ", i, transf[i]);
-		}
-		System.out.println(); System.out.println();
-		
+	
 		minPerfectMatching(oddCount, transf);
 		makeEulerCircuit();
 		makeRoute();
+		makeTotalCost();
 
 	}
 
 	private void minPerfectMatching(int oddCount, int[] transf) {
 		Queue<Edge>[] edgesSubgraph = findEdgesOfOddNodes(oddCount, transf);
-
-		System.out.println("\n EDGES SUBG");
-		for (int i = 0; i < oddCount; i++) {
-			Iterator<Edge> it = edgesSubgraph[i].iterator();
-			while (it.hasNext()) {
-				Edge e = it.next();
-				System.out.printf("%d %d %f\n", e.origin(), e.destiny(), e.cost());
-			}
-		}
-		System.out.println(); System.out.println();
-		
 		boolean[] selected = new boolean[oddCount];
 		
 		for (int i = 0; i < oddCount; i++) {
 			while (!selected[i]) {
 				Edge e = edgesSubgraph[i].remove();
-				if (!selected[e.destiny()] && !mst.hasEdge(transf[i], transf[e.destiny()])) {
+				if (!selected[e.destiny()]) {
 					selected[i] = true;
 					selected[e.destiny()] = true;
 					double cost = originalGraph.getEdgeCost(transf[i], transf[e.destiny()]);
@@ -93,14 +73,8 @@ public class Christofides {
 			}
 		}
 		
-		System.out.println("\n UNION MST");
-		double[][] t = mst.getMatrix();
-		for (int i = 0; i < mst.numNodes(); i++) {
-			for (int j = 0; j < mst.numNodes(); j++) {
-				System.out.printf(t[i][j] + " ");
-			}
-			System.out.println();
-		}
+		
+	
 	}
 	
 	// odd nodes are always an even number
@@ -150,7 +124,8 @@ public class Christofides {
 
 				edges[lastNode][destiny] = 0;
 				numNodesEachLine[lastNode]--;
-
+			
+				
 				lastNode = destiny;
 			}
 			else {
@@ -159,16 +134,16 @@ public class Christofides {
 			}
 		}
 		
-		System.out.println("\nCIRCUIT");
-		for (int n : circuit) {
-			System.out.printf(n + " ");
-		}
-		System.out.println();
-
+	
 	}
 
 	public double getTotalCost() {
-		double sum = 0;
+		
+		return totalCost;
+	}
+
+	private void makeTotalCost() {
+		totalCost = 0;
 		int origin = -1;
 		int destiny = -1;
 
@@ -176,11 +151,10 @@ public class Christofides {
 			origin = finalRoute[i];
 
 			destiny = finalRoute[i + 1];
-			sum += originalGraph.getEdgeCost(origin, destiny);
+			totalCost += originalGraph.getEdgeCost(origin, destiny);
 		}
-		return sum;
+		
 	}
-
 	
 	private void makeRoute() {
 		boolean[] visited = new boolean[mst.numNodes()];
@@ -194,14 +168,12 @@ public class Christofides {
 		
 		finalRoute[i] = mst.root();	
 		
-		System.out.println("\nFINAL ROUTE");
-		for (int j = 0; j < originalGraph.numNodes(); j++) {
-			System.out.printf(j + " ");
-		}
-		System.out.println();
+		
 	}
 	
 	public int[] getWay() {
 		return this.finalRoute.clone();
 	}
+	
+
 }

@@ -36,11 +36,11 @@ public class Main {
 			getMatrix(in, numEdges, g);
 			sb = new StringBuilder();
 			sb.append(text);
-			sb.append(",");
+			sb.append("\n    ");
 			sb.append(greedy(g));
-			sb.append(",");
+			sb.append(",    ");
 			sb.append(christofides(g));
-			sb.append("\n");
+			sb.append("\n\n");
 			writer.write(sb.toString());
 			
 			in.close();

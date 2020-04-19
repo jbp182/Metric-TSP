@@ -1,0 +1,133 @@
+nameOfFile,greedyCost,christofidesCost
+100NodesGraph0.txt
+    2163.0,    2482.0
+
+100NodesGraph1.txt
+    2267.0,    2551.0
+
+100NodesGraph2.txt
+    1849.0,    2103.0
+
+100NodesGraph3.txt
+    2181.0,    2358.0
+
+100NodesGraph4.txt
+    2113.0,    2454.0
+
+10NodesGraph0.txt
+    1180.0,    1175.0
+
+10NodesGraph1.txt
+    1859.0,    2056.0
+
+10NodesGraph2.txt
+    2505.0,    2227.0
+
+10NodesGraph3.txt
+    1518.0,    2075.0
+
+10NodesGraph4.txt
+    2583.0,    2698.0
+
+15NodesGraph0.txt
+    1601.0,    1660.0
+
+15NodesGraph1.txt
+    1958.0,    2239.0
+
+15NodesGraph2.txt
+    1961.0,    2011.0
+
+15NodesGraph3.txt
+    2432.0,    2573.0
+
+15NodesGraph4.txt
+    2217.0,    2548.0
+
+30NodesGraph0.txt
+    1885.0,    1940.0
+
+30NodesGraph1.txt
+    2184.0,    2312.0
+
+30NodesGraph2.txt
+    1778.0,    1902.0
+
+30NodesGraph3.txt
+    2528.0,    2615.0
+
+30NodesGraph4.txt
+    2764.0,    3007.0
+
+3NodesGraph0.txt
+    1834.0,    1834.0
+
+3NodesGraph1.txt
+    2202.0,    2202.0
+
+3NodesGraph2.txt
+    1428.0,    1428.0
+
+3NodesGraph3.txt
+    2208.0,    2208.0
+
+3NodesGraph4.txt
+    1474.0,    1474.0
+
+4NGraphManual1.txt
+    6.0,    6.0
+
+4NodesManual1.txt
+    6.0,    6.0
+
+4NodesManual2.txt
+    76.0,    76.0
+
+4NodesManual3.txt
+    72.0,    71.0
+
+50NodesGraph0.txt
+    2256.0,    2328.0
+
+50NodesGraph1.txt
+    2267.0,    2703.0
+
+50NodesGraph2.txt
+    2124.0,    2037.0
+
+50NodesGraph3.txt
+    2662.0,    2940.0
+
+50NodesGraph4.txt
+    1998.0,    2209.0
+
+5NodesGraph0.txt
+    1644.0,    1644.0
+
+5NodesGraph1.txt
+    2395.0,    2048.0
+
+5NodesGraph2.txt
+    1308.0,    1308.0
+
+5NodesGraph3.txt
+    2374.0,    2374.0
+
+5NodesGraph4.txt
+    1714.0,    1660.0
+
+5NodesManual1.txt
+    7.0,    6.0
+
+5NodesManual2.txt
+    5.0,    5.0
+
+5Nt1_M.txt
+    7.0,    6.0
+
+5Nt2.txt
+    12.0,    11.0
+
+6Nmap.txt
+    1462.9,    1360.4
+

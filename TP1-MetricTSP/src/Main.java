@@ -25,21 +25,39 @@ public class Main {
 		
 		for (File file : files) {
 			if (file.isFile()) {
-				String filename = file.getName();
-				String[] params = filename.split("_");
 				
+				String filename = file.getName();
+				String testName = filename.split("\\.")[0];
+				String[] params = filename.split("_");
 				int numNodes = Integer.parseInt(params[2]);
 				
 				// solve problem from file
 				Graph g = createGraph(file, numNodes);
-				double gr = greedy(g);
-				double ch = christofides(g);
+				
+				// greedy
+				GreedyTSP greedy = new GreedyTSP(g);
+				greedy.solve();
+				double gr = greedy.getTotalCost();
+				String pGr = greedy.getPermString();
+				
+				// christofides
+				Christofides chris = new Christofides(g);
+				chris.solve();
+				double ch = chris.getTotalCost();
+				String pCh = chris.getWayString();
 				
 				// save to lists
-				String testName = filename.split("\\.")[0];
 				names.add(testName);
 				greedies.add(gr);
 				christofs.add(ch);
+
+				// write permutations
+				FileWriter permOut = new FileWriter(new File("./out/" + testName + ".txt"));
+				permOut.write("greedy,");
+				permOut.write(pGr);
+				permOut.write("\nchristofides,");
+				permOut.write(pCh);
+				permOut.close();
 			}			
 		}
 		
@@ -77,19 +95,6 @@ public class Main {
 		in.close();
 		return g;		
 	}
-
-	private static double christofides(Graph g) {
-		Christofides chris = new Christofides(g);
-		chris.solve();
-		return chris.getTotalCost();
-	}
-
-
-	private static double greedy(Graph g) {
-		GreedyTSP greedy = new GreedyTSP(g);
-		greedy.solve();
-		return greedy.getTotalCost();
-	}
-
-
+	
+	
 }

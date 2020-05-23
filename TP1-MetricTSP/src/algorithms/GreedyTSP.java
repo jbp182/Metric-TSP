@@ -32,5 +32,15 @@ public class GreedyTSP {
 	public double getTotalCost() {
 		return totalCost;
 	}
+	
+	public String getPermString() {
+		String perm = "";
+		while(preorder.hasNext()) {
+			int n = preorder.next();
+			if (preorder.hasNext())
+				perm += n + " ";
+		}
+		return perm;
+	}
 
 }

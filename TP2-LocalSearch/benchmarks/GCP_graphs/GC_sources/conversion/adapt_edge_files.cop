@@ -1,0 +1,37 @@
+<CometProject>
+    <CometFiles>
+        <CometFile default="true" id="9">
+            <Path type="relative">adapt_egde_files.co</Path>
+        </CometFile>
+    </CometFiles>
+    <DataFiles>
+        <DataFile active="false" id="0">
+            <Path type="relative">myciel3.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="1">
+            <Path type="relative">myciel4.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="2">
+            <Path type="relative">myciel5.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="3">
+            <Path type="relative">myciel6.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="4">
+            <Path type="relative">myciel7.col.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="5">
+            <Path type="relative">queen5_5.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="6">
+            <Path type="relative">queen6_6.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="7">
+            <Path type="relative">queen7_7.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="8">
+            <Path type="relative">queen8_8.col.txt</Path>
+        </DataFile>
+    </DataFiles>
+    <Breakpoints/>
+</CometProject>

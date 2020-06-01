@@ -1,0 +1,11 @@
+function int [,] read_diag(Integer N, string fname){
+   string [] dirs = System.getArgs();
+   string directory = dirs[3].suffix(2);
+   string ename = directory + "/" + fname;
+   ifstream file(ename);
+   N := file.getInt();      // the number of cities
+   int d [1..N, 1..N];
+   forall(i in 1..N, j in 1 .. N: j <= i) d[i,j] = file.getInt();
+   forall(i in 1..N, j in 1..N: j > i) d[i,j] = d[j,i];
+   return d;
+}

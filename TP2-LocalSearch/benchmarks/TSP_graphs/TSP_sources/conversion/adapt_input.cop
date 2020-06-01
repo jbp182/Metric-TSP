@@ -1,0 +1,32 @@
+<CometProject>
+    <CometFiles>
+        <CometFile default="true" id="0">
+            <Path type="relative">hk.co</Path>
+        </CometFile>
+    </CometFiles>
+    <DataFiles>
+        <DataFile active="false" id="1">
+            <Path type="relative">brazil58.tsp.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="3">
+            <Path type="relative">gr24.tsp.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="4">
+            <Path type="relative">gr48.tsp.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="5">
+            <Path type="relative">brazil58.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="6">
+            <Path type="relative">gr24.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="7">
+            <Path type="relative">gr48.txt</Path>
+        </DataFile>
+    </DataFiles>
+    <Breakpoints>
+        <Breakpoint line="59" active="false" id="2">
+            <Path type="relative">brazil.co</Path>
+        </Breakpoint>
+    </Breakpoints>
+</CometProject>

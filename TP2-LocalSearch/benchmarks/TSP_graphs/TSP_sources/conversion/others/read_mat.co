@@ -1,0 +1,18 @@
+import cotfd;
+
+function int [,] read_mat(Integer N, string fname){
+   string [] dirs = System.getArgs();
+   string directory = dirs[3].suffix(2);
+   string ename = directory + "/" + fname;
+   ifstream file(ename);
+   N := file.getInt();      // the number of cities
+   int d [1..N, 1..N];
+   forall(i in 1..N, j in 1 .. N) d[i,j] = file.getInt();
+   return d;
+}
+
+Integer N(0);
+
+int [,] mat = read_mat(N, "bavaria05.txt");
+
+forall(i in 1..N, j in 1..N) cout << mat[i,j] << endl;

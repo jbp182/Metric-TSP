@@ -1,0 +1,63 @@
+// converts Edge format files into MAT format
+
+function string extend_name(string fname){
+  string [] dirs = System.getArgs();
+cout << dirs << endl;
+  string directory = dirs[3].suffix(2);
+  string ename = directory + "/" + fname;
+  return ename;
+}
+
+function void printMat(int [,] mat) {
+   int n = mat.getSize(0);
+   forall(i in 1..n){
+      forall(j in 1..n) cout << mat[i,j] << " ";
+      cout << endl;
+   }
+}
+
+function void storeMat(int [,] mat, string opt_file) {
+   int m = mat.getSize(0);
+   ofstream opt(opt_file); 
+   opt << mat.getSize(0) << " " << mat.getSize(0) << endl;
+   forall(i in mat.getRange(0)){
+      forall(j in mat.getRange(1))
+         opt << " " << mat[i,j];
+      opt << endl;
+   }
+   opt.close();
+}
+
+function int[,] readEdgeGraph(string fName) {
+   ifstream ipt(fName);
+   bool problem = false;
+   string line;
+   while (! problem ){
+      line = ipt.getLine(); // NAME, SOURCE, DESCRIPTION
+      problem = (line.prefix(1) == "p");
+   }
+   int nn = line.split(" ")[2].toInt();
+   int ne = line.split(" ")[3].toInt();
+//   cout << nn << " && " << ne << endl;
+   int mat[1..nn,1..nn] = 0;
+   forall(i in 1..ne){
+      string [] edge = ipt.getLine().split(" ");
+      int row = edge[1].toInt();
+      int col = edge[2].toInt();
+      mat[row,col] = 1;
+      mat[col,row] = 1;
+   }
+   return mat;
+}
+
+string fname = "queen8_8";
+
+string ipt_fname = fname + ".col.txt";
+string ipt_file = extend_name(ipt_fname);
+int [,] mat = readEdgeGraph(ipt_file);
+//printMat(mat);
+
+string opt_fname = fname + ".txt";
+string opt_file = extend_name(opt_fname);
+storeMat(mat,opt_file);
+cout << "finished conversion " << endl;

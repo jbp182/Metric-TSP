@@ -1,0 +1,78 @@
+// traveling salesperson problem 
+// minimize constraint violations
+// neighbourhood - 2opt
+
+import cotls;
+include "file_io";
+
+string dname = "benchmarks/TSP_graphs/";
+string fname = "bavaria05.txt";
+int[,] mat = readMatGraph(dname+fname);
+int n = mat.getSize(0);
+range Nodes = 1..n;
+int huge = 1000; // System.getMAXINT();
+int graph[Nodes,Nodes];
+forall(i in Nodes, j in Nodes: i!= j) 
+   if(mat[i,j] == 0) graph[i,j] = huge; else graph[i,j] = mat[i,j];
+
+//printMat(graph);
+
+cout << " starting" << endl;
+
+function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
+   int n = rank.getSize();
+   forall(k in 1..i-1) test[k] := rank[k];
+   forall(k in j+1..n-1) test[k] := rank[k];
+   forall(k in i..j) test[k] := rank[i + j-k];
+   return D.violations();
+
+}
+
+range Enodes = 1..n+1;
+range Inodes = 2..n;
+
+RandomPermutation perm(Inodes);
+
+Solver<LS> ls();
+   var{int} rank[i in Enodes](ls,Nodes) := 1;
+   forall(i in Inodes) rank[i] := perm.get();
+   var{int} test[i in Enodes](ls,Nodes) := rank[i];
+
+   ConstraintSystem<LS> D(ls);                                         // equivalent to Function T
+      forall(i in Nodes)
+         D.post(0 == graph[test[i],test[i%n+1]]);
+
+ls.close();
+
+
+int tabuDuration = 3;
+int tabu[Nodes, Nodes] = 0;
+
+int best_so_far = D.violations();
+int it_best;
+int x;
+cout << "starting with " << rank << endl;
+cout << "cost: " << best_so_far << endl;
+
+int it = 0;
+while(best_so_far > 0 && it < n){
+   selectMin(i in Inodes, j in Inodes: j > i+1 && tabu[i,j] < it, v = swap_2opt(D, rank, test, i, j)) (v) {
+      tabu[i,j] = tabu[i,j] + tabuDuration;
+      tabu[j,i] = tabu[j,i] + tabuDuration;
+      if (v < best_so_far) {
+         it_best = it;
+         best_so_far = v;
+         x = swap_2opt(D, rank, test, i, j);
+         forall(i in Inodes) rank[i] := test[i];
+      }
+   }
+   it++;
+}
+
+forall(i in Inodes) test[i] := rank[i];
+
+cout << endl;
+cout << " --- LS solution (min Viols) to " << fname << endl;
+cout << " best solution (found at iteration " << it_best << "):" << endl;
+cout << " ------ " << rank << endl;
+cout << "      with cost: " << D.violations() << endl;

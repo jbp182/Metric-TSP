@@ -1,0 +1,41 @@
+<CometProject>
+    <CometFiles>
+        <CometFile default="true" id="17">
+            <Path type="relative">adapt_myciel.co</Path>
+        </CometFile>
+    </CometFiles>
+    <DataFiles>
+        <DataFile active="true" id="8">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/myciel3.col.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="9">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/myciel4.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="10">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/myciel5.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="11">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/myciel6.col.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="12">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/myciel7.col.txt</Path>
+        </DataFile>
+        <DataFile active="true" id="13">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/queen5_5.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="14">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/queen6_6.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="15">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/queen7_7.col.txt</Path>
+        </DataFile>
+        <DataFile active="false" id="16">
+            <Path type="relative">../../GC_graphs/GC_sources/conversion/queen8_8.col.txt</Path>
+        </DataFile>
+    </DataFiles>
+    <Breakpoints>
+        <Breakpoint line="59" active="false" id="7">
+            <Path type="relative">brazil.co</Path>
+        </Breakpoint>
+    </Breakpoints>
+</CometProject>

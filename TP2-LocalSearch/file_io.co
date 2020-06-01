@@ -1,0 +1,153 @@
+import cotls;
+
+pragma mode = randomized;
+//pragma mode = deterministic;
+
+function string extend_name(string fname){
+  string [] dirs = System.getArgs();
+  string directory = dirs[3].suffix(2);
+  string ename = directory + "/" + fname;
+  return ename;
+}
+
+// READ functions
+
+function int [,] readEdgeGraph(string fName) { // bgp, mbo, mcp, 
+   string optName = extend_name(fName);
+   ifstream ipt(optName); 
+   string [] dims = ipt.getLine().split(" ");
+   int m = dims[0].toInt();
+   int n = dims[1].toInt();
+   int mat[1..m, 1..m] = 0;
+   forall(i in 1..n){
+      string [] line = ipt.getLine().split(" ");
+      int i = line[0].toInt();
+      int j = line[1].toInt();
+      mat[i,j] = 1;
+      mat[j,i] = 1;
+   }
+   return mat;
+}
+
+function bool [,] readGraph(string fName){
+   string iptName = extend_name(fName);
+   ifstream file(iptName);
+   int nn = file.getInt();
+   int ne = file.getInt();
+   range Nodes = 1..nn;
+
+   bool e[Nodes,Nodes] = false;
+   forall(i in 1..ne){
+      string dummy = file.getString();
+      int i = file.getInt(); int j = file.getInt();
+      e[i,j] = true; e[j,i] = true;
+   }
+   return e;
+}
+
+
+function void writeGraph(bool [,] g){
+   range R = g.getRange(0); 
+   forall(i in R){
+      cout << endl;
+      forall(j in R) cout << " " << g[i,j]*1;
+   }
+}
+
+function int [,] readEdgeWeightedGraph(string fName) {
+   string iptName = extend_name(fName);
+   ifstream ipt(iptName); 
+   string [] dims = ipt.getLine().split(" ");
+   int m = dims[0].toInt();
+   int n = dims[1].toInt();
+   int mat[1..m, 1..m] = 0;
+   forall(i in 1..n){
+      string [] line = ipt.getLine().split(" ");
+      int i = line[0].toInt();
+      int j = line[1].toInt();
+      int k = line[2].toInt();
+      mat[i,j] = k;
+      mat[j,i] = k;
+   }
+   return mat;
+}
+
+
+function int [,] readMatGraph(string fName) {  // gcp, tsp
+   string optName = extend_name(fName);
+   ifstream ipt(optName); 
+   string [] dims = ipt.getLine().split(" ");
+   int m = dims[0].toInt();
+   int n = dims[1].toInt();
+   int mat[1..m, 1..n];
+   forall(i in 1..m){
+      string [] line = ipt.getLine().split(" ");
+      forall(j in 1..n) 
+         mat[i,j] = line[j].toInt();
+   }
+   return mat;
+}
+
+
+function int [] readSet(string fName) {  // bsp
+   string optName = extend_name(fName);
+   ifstream ipt(optName); 
+   int n = ipt.getLine().toInt();
+   int vec [1..n];
+   forall(i in 1..n){
+      string [] line = ipt.getLine().split(" ");
+      vec[i] = line[0].toInt();
+   }
+   return vec;
+}
+
+// WRITE and STORE functions
+
+function void printMat(int [,] mat) {
+   int n = mat.getSize(0);
+   forall(i in 1..n){
+      forall(j in 1..n) cout << mat[i,j] << " ";
+      cout << endl;
+   }
+}
+
+
+function void storeMat(int [,] mat) {
+   int m = mat.getSize(0);
+   int n = mat.getSize(1);
+   string fName = "mat_"+ IntToString(m) + "_" + IntToString(n) + ".txt";
+   string optName = extend_name(fName);
+   ofstream opt(optName); 
+   opt << mat.getSize(0) << " " << mat.getSize(0) << endl;
+   forall(i in mat.getRange(0)){
+      forall(j in mat.getRange(1))
+         opt << " " << mat[i,j];
+      opt << endl;
+   }
+   opt.close();
+}
+
+function void showMat(int [,] mat) {
+   forall(i in mat.getRange(0)){
+      forall(j in mat.getRange(1))
+        cout << mat[i,j] << " ";
+      cout << endl;
+   }
+}
+
+function RandomPermutation setPermutation(range rg){
+   int seed = System.getCPUTime();
+   //cout << seed << endl;
+   RandomPermutation perm(rg);
+   forall(i in 1.. seed) {perm.get(); perm.reset();}
+   return perm;
+}
+
+function UniformDistribution setDistribution(range rg){
+   int seed = System.getCPUTime();
+   UniformDistribution dist1(rg);
+   forall(i in 1.. seed) dist1.get();
+   UniformDistribution dist2(rg);
+   forall(i in 1.. dist1.get()) dist2.get();
+   return dist2;
+}

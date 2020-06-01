@@ -28,6 +28,7 @@ public class GraphGenerator {
 		
 		try {
 			FileWriter writer = new FileWriter(new File(filename));
+			writer.write(numNodes + " " + numNodes + "\n");
 			
 			for (int row = 0; row < numNodes; row++) {
 				for (int col = 0; col < numNodes; col++) {

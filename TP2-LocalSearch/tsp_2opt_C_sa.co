@@ -12,7 +12,7 @@ include "sasearch";
 
 
 
-string fname = "test_5_5_0.txt";
+string fname = "test_100_100_1.txt";
 string dtestname = "../TP1-MetricTSP/tests/";
 int[,] mat = readMatGraph(dtestname+fname);
 int n = mat.getSize(0);

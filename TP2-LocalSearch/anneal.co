@@ -9,7 +9,7 @@ class SimulatedAnnealing {
   SimulatedAnnealing(Constraint<LS> _c, int _n){
     temp = 2.0; factor = 0.95; mp = 0.02;            // parameters to tune SA search
     it = 0; ch = 0; fc = 0;                          // parameters to tune SA search
-    maxit = 200 * _n; maxch =  10 * _n; maxfc = 10;  // parameters to tune SA search
+    maxit = 2 * _n; maxch =  5 * _n; maxfc = 10;  // parameters to tune SA search
     S = _c; 
     distr = new ExponentialDistribution();
   }

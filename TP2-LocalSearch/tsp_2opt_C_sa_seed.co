@@ -10,7 +10,7 @@ pragma mode = randomized;
 include "anneal";  
 include "sasearch"; 
 
-string fname = "test_5_5_0.txt";
+string fname = "test_100_100_1.txt";
 
 
 string dtestname = "../TP1-MetricTSP/tests/";
@@ -31,43 +31,46 @@ cout << " starting" << endl;
 
 range Enodes = 1..n+1;
 range Inodes = 2..n;
+range numTests = 1..10;
 
-int solutions[1..2];
+int solutions[1..2,numTests];
 
 // 1- greedy ; 2- christofides
 forall(prev_alg in 1..2) {
 
-   int initial[i in Enodes] = initial_sol[prev_alg,i];
+   forall(times in numTests) {
+      int initial[i in Enodes] = initial_sol[prev_alg,i];
 
-   RandomPermutation perm(Inodes);
+      RandomPermutation perm(Inodes);
 
-   Solver<LS> ls();
-   //assignment of values
-      var{int} rank[i in Enodes](ls,Nodes) := 1;
-      forall(i in Inodes) rank[i] := perm.get();
-      var{int} test[i in Enodes](ls,Nodes) := rank[i];
+      Solver<LS> ls();
+      //assignment of values
+         var{int} rank[i in Enodes](ls,Nodes) := 1;
+         forall(i in Inodes) rank[i] := perm.get();
+         var{int} test[i in Enodes](ls,Nodes) := rank[i];
 
-      ConstraintSystem<LS> D(ls);                                               // equivalent to Function T
-         forall(i in Nodes)
-            D.post(0 == graph[test[i],test[i%n+1]]);
+         ConstraintSystem<LS> D(ls);                                               // equivalent to Function T
+            forall(i in Nodes)
+               D.post(0 == graph[test[i],test[i%n+1]]);
 
-   ls.close();
+      ls.close();
 
-   //cout << swap_2opt(D, rank, test, 1, 2) << endl;
+      //cout << swap_2opt(D, rank, test, 1, 2) << endl;
 
 
-   cout << "starting with " << rank << endl;
-   int solution = saSearch(D,Inodes,rank,test);
+      cout << "starting with " << rank << endl;
+      int solution = saSearch(D,Inodes,rank,test);
 
-   cout << endl;
-   cout << " --- LS solution (min Viols) to " << fname << endl;
-   cout << " ------ " << solution << endl;
-   cout << "  ( the same as: "<< sum(i in Nodes) (graph[rank[i],rank[i%n+1]]) << ")" << endl;
+      cout << endl;
+      cout << " --- LS solution (min Viols) to " << fname << endl;
+      cout << " ------ " << solution << endl;
+      cout << "  ( the same as: "<< sum(i in Nodes) (graph[rank[i],rank[i%n+1]]) << ")" << endl;
 
-   solutions[prev_alg] = solution;
+      solutions[prev_alg,times] = solution;
+   }
 }
 
 string outdir = "out/";
 string outName = outdir + fname.split(".")[0] + "_sa_prev.txt";
-writeSolution(outName, solutions);
+writeSolutionMat(outName, solutions, numTests.getUp());
 

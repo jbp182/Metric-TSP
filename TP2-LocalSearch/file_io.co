@@ -24,8 +24,22 @@ function void writeSolutionRand(string fName, int[] sol, int numTests) {
 function void writeSolution(string fName, int[] sol) {
    string optName = extend_name(fName);
    ofstream opt(optName);
-   opt << "from_greedy," << sol[1] << endl;
-   opt << "from_christofides," << sol[2] << endl;
+   opt << "from_greedy, " << sol[1] << endl;
+   opt << "from_christofides, " << sol[2] << endl;
+   opt.close();
+}
+
+function void writeSolutionMat(string fName, int[,] sol, int numTests) {
+   string optName = extend_name(fName);
+   ofstream opt(optName);
+   opt << "from_greedy, ";
+   forall(i in 1..numTests)
+      opt << sol[1,i] << " ";
+   opt << endl;
+   opt << "from_christofides, ";
+   forall (i in 1..numTests)
+      opt << sol[2,i] << " ";
+   opt << endl;
    opt.close();
 }
 

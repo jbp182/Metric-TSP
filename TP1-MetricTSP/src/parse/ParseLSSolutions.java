@@ -9,41 +9,69 @@ public class ParseLSSolutions {
 
 	public static void main(String[] args) throws IOException {
 		
-		Scanner in = new Scanner(System.in);
-		System.out.println("test name?");
-		String testName = in.nextLine().trim();
-		System.out.println("Now enter the solution vector:");
-		int numTests = 100;
+		String inDir = "../TP2-LocalSearch/out/";
+		int numTests = 10;
 		
-		int bestSol = Integer.MAX_VALUE;
-		int sumAll = 0;
-		int[] vet = new int[numTests];
-		int current;
-		for(int i = 0; i < numTests; i++) {
-			current = in.nextInt();
-			if (current < bestSol)
-				bestSol = current;
-			sumAll += current;
-			vet[i] = current;
-		}
+		String dir = new File(inDir).getAbsolutePath();
+		File folder = new File(dir);
+		File[] files = folder.listFiles();
+		
+		for(File file : files) {
+			if(file.isFile()) {
+				
+				String filename = file.getName();
+				if (filename.split("\\.")[0].split("_")[5].equals("prev")
+						&& filename.split("\\.")[0].split("_")[4].equals("tabu")) 
+					continue;
+				
+				Scanner in = new Scanner(file);
 
-		in.close();
-		
-		int avg = sumAll / numTests;
+				String testName = filename.split("\\.")[0];
 
-		int stdevNumerator = 0;
-		for(int i = 0; i < numTests; i++) {
-			stdevNumerator += Math.pow(vet[i] - avg, 2);
+				
+				int maxj = 1;
+				if (filename.split("\\.")[0].split("_")[5].equals("prev")) {
+					maxj = 2;
+				}
+
+				FileWriter writer = new FileWriter(new File(inDir + "sol/" + testName + "_sol.txt"));
+				for (int j = 0; j < maxj; j++) {
+					
+					int bestSol = Integer.MAX_VALUE;
+					int sumAll = 0;
+					int[] vet = new int[numTests];
+					int current;
+					
+					if (maxj == 2)
+						in.next();
+					for(int i = 0; i < numTests; i++) {
+						current = in.nextInt();
+						if (current < bestSol)
+							bestSol = current;
+						sumAll += current;
+						vet[i] = current;
+					}
+					
+					int avg = sumAll / numTests;
+	
+					int stdevNumerator = 0;
+					for(int i = 0; i < numTests; i++) {
+						stdevNumerator += Math.pow(vet[i] - avg, 2);
+					}
+					
+					double stdev = Math.sqrt((double)stdevNumerator / numTests);
+					
+					writer.write("Best solution found: " + bestSol + "\n");
+					writer.write("Average: " + avg + "\n");
+					writer.write("Standard deviation: " + stdev + "\n\n");
+					
+				}
+
+				writer.close();
+				in.close();
+				
+			}
 		}
-		
-		double stdev = Math.sqrt((double)stdevNumerator / numTests);
-		
-		FileWriter writer = new FileWriter(new File("LS_sol/"  + testName + ".txt"));
-		writer.write("Best solution found: " + bestSol + "\n");
-		writer.write("Average: " + avg + "\n");
-		writer.write("Standard deviation: " + stdev + "\n");
-		
-		writer.close();
 	}
 
 }

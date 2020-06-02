@@ -5,7 +5,7 @@
 import cotls;
 include "file_io";
 
-string fname = "test_50_20_0.txt";
+string fname = "test_100_100_1.txt";
 string dtestname = "../TP1-MetricTSP/tests/";
 
 int[,] mat = readMatGraph(dtestname+fname);
@@ -30,7 +30,7 @@ function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test,
 
 range Enodes = 1..n+1;
 range Inodes = 2..n;
-range numTests = 1..100;
+range numTests = 1..10;
 
 int solutions[numTests];
 

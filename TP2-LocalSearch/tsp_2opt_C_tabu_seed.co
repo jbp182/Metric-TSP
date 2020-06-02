@@ -55,7 +55,7 @@ forall(prev_alg in 1..2) {
 
    ls.close();
 
-   int tabuDuration = 3;
+   int tabuDuration = 5;
    int tabu[Nodes, Nodes] = 0;
 
    int best_so_far = D.violations();

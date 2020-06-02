@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class Main {
 		List<Double> greedies = new LinkedList<Double>();
 		List<Double> christofs = new LinkedList<Double>();
 		
+		final int NUM_REPETITION = 10; 
+		
+		
 		for (File file : files) {
 			if (file.isFile()) {
 				
@@ -34,30 +38,66 @@ public class Main {
 				// solve problem from file
 				Graph g = createGraph(file, numNodes);
 				
-				// greedy
-				GreedyTSP greedy = new GreedyTSP(g);
-				greedy.solve();
-				double gr = greedy.getTotalCost();
-				String pGr = greedy.getPermString();
+					
+				double bestCost_greedy = Integer.MAX_VALUE;
+				String best_pGr = null;
+				double average_Gr = 0;
+				double sv_Gr = 0;
 				
-				// christofides
-				Christofides chris = new Christofides(g);
-				chris.solve();
-				double ch = chris.getTotalCost();
-				String pCh = chris.getWayString();
+				
+				double bestCost_ch = Integer.MAX_VALUE;
+				String best_pCh = null;
+				double average_Ch = 0;
+				double sv_Ch = 0;
+				List<Double> costs_Gr = new ArrayList<Double>(NUM_REPETITION);
+				List<Double> costs_Ch = new ArrayList<Double>(NUM_REPETITION);
+				for (int i = 0; i < NUM_REPETITION; i++) {
+					GreedyTSP greedy = new GreedyTSP(g);
+					Christofides chris = new Christofides(g);
+					
+				
+					//greedy
+					greedy.solve();
+					double gr = greedy.getTotalCost();
+					average_Gr += gr;
+					costs_Gr.add(gr);
+						if(gr < bestCost_greedy) {
+							bestCost_greedy = gr;
+							best_pGr = greedy.getPermString();
+						}
+					// christofides
+					chris.solve();
+					double ch = chris.getTotalCost();
+					if(ch < bestCost_ch) {
+						bestCost_ch = ch;
+						best_pCh= chris.getWayString();
+					}
+					average_Ch += ch;
+					costs_Ch.add(ch);
+
+				}
+				average_Ch /= NUM_REPETITION;
+				average_Gr /= NUM_REPETITION;
+				sv_Gr = standardDesviation(costs_Gr, average_Gr);
+				sv_Ch = standardDesviation(costs_Ch, average_Ch);
+				
+				
 				
 				// save to lists
-				names.add(testName);
-				greedies.add(gr);
-				christofs.add(ch);
+				FileWriter permOut = new FileWriter(new File("./out/" + testName + ".txt"));
+				writeContent(permOut, "greedy", bestCost_greedy, best_pGr, average_Gr, sv_Gr);
+				writeContent(permOut, "christofides", bestCost_ch, best_pCh, average_Ch, sv_Ch);
 
 				// write permutations
-				FileWriter permOut = new FileWriter(new File("./out/" + testName + ".txt"));
-				permOut.write("greedy,");
-				permOut.write(pGr);
-				permOut.write("\nchristofides,");
-				permOut.write(pCh);
 				permOut.close();
+
+				
+				names.add(testName);
+				greedies.add(bestCost_greedy);
+				christofs.add(bestCost_ch);
+
+
+
 			}			
 		}
 		
@@ -78,6 +118,26 @@ public class Main {
 			out.write(itCh.next() + ",");
 		out.close();
 		
+	}
+	
+	private static double standardDesviation(List<Double> array, double average) {
+		double sum = 0;
+		int divisor = array.size() -1;
+		double clause = 0;
+		for (Double x : array) {
+			clause = x - average;
+			sum += clause*clause;
+		}
+		return Math.sqrt(sum/divisor);
+	}
+	
+	private static void writeContent(FileWriter permOut,String algorithm,double bestCost,String bestRoute,double average,double sv) throws IOException {
+		permOut.write(algorithm+"\n");
+		permOut.write("Custo minimo: "+ bestCost+"\n");
+		permOut.write("Media: " + average+"\n");
+		permOut.write("Desvio padrao: " + sv+"\n");
+		permOut.write(bestRoute +"\n");
+
 	}
 	
 	

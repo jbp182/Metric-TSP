@@ -1,0 +1,39 @@
+function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
+   int n = rank.getSize();
+   forall(k in 1..i-1) test[k] := rank[k];
+   forall(k in j+1..n-1) test[k] := rank[k];
+   forall(k in i..j) test[k] := rank[i + j-k];
+   return D.violations();
+
+}
+
+function int  saSearch( ConstraintSystem<LS>  S,range Inodes,var{int}[] rank, var{int}[] test) {
+  Solver<LS> m = S.getLocalSolver();
+  SimulatedAnnealing sa(S,Inodes.getSize());
+  int best = S.violations();
+  //forall (i in X) best[i] = System.getMAXINT();
+
+
+
+  while (sa.globalCondition()){
+    while (sa.localCondition()) {
+       select(i in Inodes, j in Inodes: j > i+1){
+         int  v = swap_2opt(S, rank, test, i, j);           
+           if (sa.acceptMove(v-best)) {
+            cout << best <<" " << v <<endl;
+            if(v < best){    
+                best = v;             
+            }
+            forall(i in Inodes) rank[i] := test[i];
+           } 
+      
+       }
+    }
+    sa.nextLocal();
+   
+  }
+
+   return best;
+
+}
+

@@ -102,7 +102,7 @@ public class CreateFinalTable {
 			insr.close();
 			insp.close();
 			
-			FileWriter out = new FileWriter(new File("all_results.csv"));
+			FileWriter out = new FileWriter(new File(testname + "_results.csv"));
 			out.write(",greedy,christ,greedy+tabu,christ+tabu,greedy+sa,christ+sa,tabu,sa,\n");
 			
 			// best

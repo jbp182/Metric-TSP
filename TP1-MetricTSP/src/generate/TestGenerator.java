@@ -6,8 +6,8 @@ public class TestGenerator {
 	public static void main(String[] args) {
 		
 		int NUM_TESTS = 2;
-		int NUM_NODES = 100;
-		int MAX_SCALE = 100;
+		int NUM_NODES = 20;
+		int MAX_SCALE = 50;
 		String FILENAME = "tests/test";
 		
 		

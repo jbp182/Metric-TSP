@@ -180,9 +180,8 @@ public class Christofides {
 		String perm = "";
 		Iterator<Integer> it = finalRoute.iterator();
 		while(it.hasNext()) {
-			int n = it.next();
-			if (it.hasNext())
-				perm += n + " ";
+			int n = it.next() + 1;
+			perm += n + " ";
 		}
 		return perm;
 	}

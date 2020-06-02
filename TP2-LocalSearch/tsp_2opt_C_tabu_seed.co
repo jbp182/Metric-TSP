@@ -6,31 +6,23 @@ import cotls;
 include "file_io";
 
 
-string dtestname = "../TP1-MetricTSP/tests/";
-string dseedname = "../TP1-MetricTSP/seeds/";
-string fname = "test_100_100_0.txt";
-string prev = "greedy";   //"christofides";
-string initial_sol = "0 38 81 37 21 71 36 72 13 22 33 39 69 35 66 79 19 67 1 56 88 53 6 26 84 45 32 54 44 28 55 47 95 34 73 10 41 63 40 64 46 75 74 68 25 60 77 59 9 86 43 42 57 12 15 92 29 96 65 83 2 20 94 31 48 78 61 87 3 80 70 30 91 89 14 90 49 58 17 4 98 16 50 5 18 97 82 76 51 8 62 24 7 99 27 23 11 85 93 52 ";
+string fname = "test_50_20_0.txt";
 
-/////////////////////////////////////
-/////////////////////////////////////
+
+string dtestname = "../TP1-MetricTSP/tests/";
+string dseedname = "../TP1-MetricTSP/out/";
+int[,] initial_sol = getInitialSol(dseedname+fname);
 
 int[,] mat = readMatGraph(dtestname+fname);
 int n = mat.getSize(0);
 range Nodes = 1..n;
-int huge = 1000;
 int graph[Nodes,Nodes];
 forall(i in Nodes, j in Nodes: i!= j) 
-   if(mat[i,j] == 0) graph[i,j] = huge; else graph[i,j] = mat[i,j];
+   graph[i,j] = mat[i,j];
 
-printMat(graph);
+//printMat(graph);
 
 cout << " starting" << endl;
-string[] initial = initial_sol.split(" ");
-int seed[Nodes];
-forall(i in Nodes)
-   seed[i] = initial[i].toInt();
-forall(i in Nodes) cout << seed[i] << " " ;
 
 function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
    int n = rank.getSize();
@@ -43,29 +35,25 @@ function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test,
 
 range Enodes = 1..n+1;
 range Inodes = 2..n;
-range numTests = 1..100;
 
-int solutions[numTests];
-int best_sol = System.getMAXINT();
-int sum_all = 0;
+int solutions[1..2];
 
+// 1- greedy ; 2- christofides
+forall(prev_alg in 1..2) {
 
+   int initial[i in Enodes] = initial_sol[prev_alg,i];
 
-/*
-forall(times in numTests) {
    RandomPermutation perm(Inodes);
 
    Solver<LS> ls();
-      var{int} rank[i in Enodes](ls,Nodes) := 1;
-      forall(i in Inodes) rank[i] := perm.get();
+      var{int} rank[i in Enodes](ls,Nodes) := initial[i]; 
       var{int} test[i in Enodes](ls,Nodes) := rank[i];
-   
+      
       ConstraintSystem<LS> D(ls);                                         // equivalent to Function T
          forall(i in Nodes)
             D.post(0 == graph[test[i],test[i%n+1]]);
 
    ls.close();
-
 
    int tabuDuration = 3;
    int tabu[Nodes, Nodes] = 0;
@@ -96,20 +84,14 @@ forall(times in numTests) {
    int current = D.violations();
    cout << endl;
    cout << " --- LS solution (min Viols) to " << fname << endl;
-   cout << " best solution (found at iteration " << it_best << "):" << endl;
+   cout << " best solution (found at iteration " << it_best << "):" << endl;   
    cout << " ------ " << rank << endl;
    cout << "      with cost: " << current << endl;
 
-   solutions[times] = current;
-   if (current < best_sol)
-      best_sol = current;
-   sum_all += current;
+   solutions[prev_alg] = current;
 }
 
-cout << endl;
-forall(i in numTests)
-   cout << solutions[i] << " ";
-cout << endl;
-cout << "best_sol: " << best_sol << endl;
-int avg = sum_all / numTests.getUp();
-cout << "avg: " << avg << endl;*/
+string outdir = "out/";
+string outName = outdir + fname.split(".")[0] + "_tabu_prev.txt";
+writeSolution(outName, solutions);
+

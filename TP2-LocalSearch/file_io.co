@@ -10,7 +10,41 @@ function string extend_name(string fname){
   return ename;
 }
 
+// WRITE functions
+
+function void writeSolutionRand(string fName, int[] sol, int numTests) {
+   string optName = extend_name(fName);
+   ofstream opt(optName);
+   forall(i in 1..numTests) {
+      opt << sol[i] << " ";
+   }
+   opt.close();
+}
+
+function void writeSolution(string fName, int[] sol) {
+   string optName = extend_name(fName);
+   ofstream opt(optName);
+   opt << "from_greedy," << sol[1] << endl;
+   opt << "from_christofides," << sol[2] << endl;
+   opt.close();
+}
+
 // READ functions
+
+function int[,] getInitialSol(string fName) {
+   string optName = extend_name(fName);
+   ifstream ipt(optName);
+   int nodes = fName.split("_")[2].toInt();
+   int initial[1..2,1..nodes+1];
+   string line;
+   forall(i in 1..2) {
+      string[] perm = ipt.getLine().split(",")[1].split(" ");
+      forall(j in 1..nodes+1)
+         initial[i,j] = perm[j-1].toInt();
+   }
+   return initial;
+}
+
 
 function int [,] readEdgeGraph(string fName) { // bgp, mbo, mcp, 
    string optName = extend_name(fName);
@@ -83,7 +117,7 @@ function int [,] readMatGraph(string fName) {  // gcp, tsp
    forall(i in 1..m){
       string [] line = ipt.getLine().split(" ");
       forall(j in 1..n) 
-         mat[i,j] = line[j].toInt();
+         mat[i,j] = line[j-1].toInt();
    }
    return mat;
 }

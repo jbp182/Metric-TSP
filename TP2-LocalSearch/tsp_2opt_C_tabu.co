@@ -5,17 +5,17 @@
 import cotls;
 include "file_io";
 
-string dname = "benchmarks/TSP_graphs/";
-string fname = "bavaria15.txt";
-int[,] mat = readMatGraph(dname+fname);
+string fname = "test_50_20_0.txt";
+string dtestname = "../TP1-MetricTSP/tests/";
+
+int[,] mat = readMatGraph(dtestname+fname);
 int n = mat.getSize(0);
 range Nodes = 1..n;
-int huge = 1000; // System.getMAXINT();
 int graph[Nodes,Nodes];
 forall(i in Nodes, j in Nodes: i!= j) 
-   if(mat[i,j] == 0) graph[i,j] = huge; else graph[i,j] = mat[i,j];
+   graph[i,j] = mat[i,j];
 
-//printMat(graph);
+printMat(graph);
 
 cout << " starting" << endl;
 
@@ -33,8 +33,6 @@ range Inodes = 2..n;
 range numTests = 1..100;
 
 int solutions[numTests];
-int best_sol = System.getMAXINT();
-int sum_all = 0;
 
 forall(times in numTests) {
    RandomPermutation perm(Inodes);
@@ -57,8 +55,8 @@ forall(times in numTests) {
    int best_so_far = D.violations();
    int it_best;
    int x;
-   cout << "starting with " << rank << endl;
-   cout << "cost: " << best_so_far << endl;
+  /* cout << "starting with " << rank << endl;
+   cout << "cost: " << best_so_far << endl;*/
 
    int it = 0;
    while(best_so_far > 0 && it < n){
@@ -85,15 +83,8 @@ forall(times in numTests) {
    cout << "      with cost: " << current << endl;
 
    solutions[times] = current;
-   if (current < best_sol)
-      best_sol = current;
-   sum_all += current;
 }
 
-cout << endl;
-forall(i in numTests)
-   cout << solutions[i] << " ";
-cout << endl;
-cout << "best_sol: " << best_sol << endl;
-int avg = sum_all / numTests.getUp();
-cout << "avg: " << avg << endl;
+string outdir = "out/";
+string outName = outdir + fname.split(".")[0] + "_tabu_rand.txt";
+writeSolutionRand(outName, solutions, numTests.getUp());

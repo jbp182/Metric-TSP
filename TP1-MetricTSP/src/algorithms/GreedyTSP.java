@@ -36,9 +36,8 @@ public class GreedyTSP {
 	public String getPermString() {
 		String perm = "";
 		while(preorder.hasNext()) {
-			int n = preorder.next();
-			if (preorder.hasNext())
-				perm += n + " ";
+			int n = preorder.next() + 1;
+			perm += n + " ";
 		}
 		return perm;
 	}

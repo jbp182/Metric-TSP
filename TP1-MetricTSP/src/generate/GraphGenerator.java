@@ -48,10 +48,10 @@ public class GraphGenerator {
 		
 		Point[] points = new Point[numNodes];
 
-		int y0 = (int)(Math.random() * maxScale);
+		int x = (int)(Math.random() * maxScale);
 		for (int i = 0; i < numNodes; i++) {
-			int x = (int)(Math.random() * maxScale);
-			points[i] = new Point(x,y0);
+			int y = (int)(Math.random() * maxScale);
+			points[i] = new Point(x,y);
 		}
 		
 		int[][] dist = new int[numNodes][numNodes];
@@ -66,6 +66,7 @@ public class GraphGenerator {
 		
 		try {
 			FileWriter writer = new FileWriter(new File(filename));
+			writer.write(numNodes + " " + numNodes + "\n");
 			
 			for (int row = 0; row < numNodes; row++) {
 				for (int col = 0; col < numNodes; col++) {
@@ -135,6 +136,7 @@ public class GraphGenerator {
 		
 		try {
 			FileWriter writer = new FileWriter(new File(filename));
+			writer.write(numNodes + " " + numNodes + "\n");
 			
 			for (int row = 0; row < numNodes; row++) {
 				for (int col = 0; col < numNodes; col++) {

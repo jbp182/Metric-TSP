@@ -85,6 +85,7 @@ public class Main {
 		Graph g = new Graph(numNodes);
 		Scanner in = new Scanner(file);
 		in.nextLine();
+		System.out.println(file.getName());
 		for (int row = 0; row < numNodes; row++) {
 			for (int col = 0; col < row; col++) {
 				int cost = in.nextInt();

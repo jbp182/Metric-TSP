@@ -16,7 +16,7 @@ function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test,
 }
 
 
-forall(fname in tests3){
+forall(fname in tests4){
 
 
 string dtestname = "../TP1-MetricTSP/tests/";

@@ -1,2 +1,2 @@
-from_greedy, 81 71 71 72 72 81 81 81 81 72 
-from_christofides, 72 72 71 72 81 72 71 72 81 71 
+from_greedy, 72 72 72 72 72 72 72 72 72 72 
+from_christofides, 71 71 71 71 71 71 71 71 71 71 

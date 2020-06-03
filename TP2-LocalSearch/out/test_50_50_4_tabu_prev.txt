@@ -1,2 +1,2 @@
-from_greedy, 199
-from_christofides, 218
+from_greedy, 650
+from_christofides, 662

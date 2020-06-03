@@ -44,8 +44,8 @@ public class CreateFinalTable {
 			File saRand = new File(tp2dir + "sol/" + testname + "_sa_rand_sol.txt");
 			File saPrev = new File(tp2dir + "sol/" + testname + "_sa_prev_sol.txt");
 			
-			Scanner intr = new Scanner(tabuRand);
-			Scanner intp = new Scanner(tabuPrev);
+		//	Scanner intr = new Scanner(tabuRand);
+		//	Scanner intp = new Scanner(tabuPrev);
 			Scanner insr = new Scanner(saRand);
 			Scanner insp = new Scanner(saPrev);
 			
@@ -60,12 +60,12 @@ public class CreateFinalTable {
 			bests.add((int)Double.parseDouble(chCosts[i]));
 			
 			// greedy+tabu
-			intp.next();
-			bests.add(intp.nextInt());
+		//	intp.next();
+			//bests.add(intp.nextInt());
 			
 			// christ+tabu
-			intp.next();
-			bests.add(intp.nextInt());
+		//	intp.next();
+		//	bests.add(intp.nextInt());
 			
 			// greedy+sa
 			insp.next(); insp.next(); insp.next(); 
@@ -85,12 +85,12 @@ public class CreateFinalTable {
 
 			System.out.println(testname);
 			// tabu random seeds
-			intr.next(); intr.next(); intr.next();
-			bests.add(intr.nextInt());
-			intr.next();
-			means.add(intr.nextDouble());
-			intr.next(); intr.next();
-			stdev.add(Double.parseDouble(intr.next()));
+		//	intr.next(); intr.next(); intr.next();
+		//	bests.add(intr.nextInt());
+		//	intr.next();
+		//	means.add(intr.nextDouble());
+		//	intr.next(); intr.next();
+		//	stdev.add(Double.parseDouble(intr.next()));
 			
 			
 			// sa random seeds
@@ -101,8 +101,8 @@ public class CreateFinalTable {
 			insr.next(); insr.next();
 			stdev.add(Double.parseDouble(insr.next()));
 			
-			intr.close();
-			intp.close();
+		//	intr.close();
+		//	intp.close();
 			insr.close();
 			insp.close();
 			

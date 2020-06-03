@@ -1,2 +1,2 @@
-from_greedy, 98
-from_christofides, 98
+from_greedy, 2230
+from_christofides, 2230

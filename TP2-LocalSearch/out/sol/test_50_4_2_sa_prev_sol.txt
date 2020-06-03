@@ -1,0 +1,8 @@
+Best solution found: 76
+Average: 76
+Standard deviation: 0.0
+
+Best solution found: 76
+Average: 76
+Standard deviation: 0.0
+

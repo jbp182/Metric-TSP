@@ -1,0 +1,8 @@
+Best solution found: 432
+Average: 443
+Standard deviation: 9.497368056467012
+
+Best solution found: 448
+Average: 490
+Standard deviation: 29.76743186773088
+

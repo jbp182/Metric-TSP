@@ -1,0 +1,49 @@
+
+class SimulatedAnnealing { 
+  float temp; float factor; float mp;
+  int it;  int ch; int fc;  
+  int maxit; int maxch; int maxfc;
+  ExponentialDistribution distr;
+  Constraint<LS> S;
+  
+  SimulatedAnnealing(Constraint<LS> _c, int _n){
+    temp = 2.0; factor = 0.95; mp = 0.02;            // parameters to tune SA search
+    it = 0; ch = 0; fc = 0;                          // parameters to tune SA search
+    maxit = 2 * _n; maxch =  5 * _n; maxfc = 10;  // parameters to tune SA search
+    S = _c; 
+    distr = new ExponentialDistribution();
+  }
+  
+  bool globalCondition() {return fc < maxfc;}
+  
+  bool localCondition(){ it = it+1; 
+  
+    return it < maxit && ch < maxch;
+    }
+
+  void nextLocal () {
+    temp = factor * temp;
+    if (1.0*ch/it  < mp)
+      fc = fc+1;
+    ch = 0;
+    it = 0;
+     cout <<temp <<"-----" <<fc << endl;
+  }
+  
+  bool accept(float val) { 
+    return distr.accept(val/temp);
+  }
+  bool acceptMove(int delta){
+    if (delta < 0) { ch = ch +1;
+      if (S.isTrue()) fc = 0;
+      return true;
+    } else if (delta == 0) { return true;
+    } else  if(accept(-delta)){ ch = ch +1; return true;
+    } else
+      return false;
+  }
+}
+
+
+
+

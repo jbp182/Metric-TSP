@@ -1,0 +1,1 @@
+graphs generated randomly with parameters	number of nodes	tightness

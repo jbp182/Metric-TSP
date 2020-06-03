@@ -1,0 +1,4 @@
+Best solution found: 297
+Average: 313
+Standard deviation: 9.033271832508971
+

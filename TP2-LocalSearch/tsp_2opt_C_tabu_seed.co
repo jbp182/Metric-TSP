@@ -1,0 +1,101 @@
+// traveling salesperson problem 
+// minimize constraint violations
+// neighbourhood - 2opt
+
+import cotls;
+include "file_io";
+
+
+function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
+   int n = rank.getSize();
+   forall(k in 1..i-1) test[k] := rank[k];
+   forall(k in j+1..n-1) test[k] := rank[k];
+   forall(k in i..j) test[k] := rank[i + j-k];
+   return D.violations();
+
+}
+
+
+forall(fname in tests4){
+
+
+string dtestname = "../TP1-MetricTSP/tests/";
+string dseedname = "../TP1-MetricTSP/out/";
+int[,] initial_sol = getInitialSol(dseedname+fname);
+
+int[,] mat = readMatGraph(dtestname+fname);
+int n = mat.getSize(0);
+range Nodes = 1..n;
+int graph[Nodes,Nodes];
+forall(i in Nodes, j in Nodes: i!= j) 
+   graph[i,j] = mat[i,j];
+
+//printMat(graph);
+
+cout << " starting" << endl;
+
+
+
+range Enodes = 1..n+1;
+range Inodes = 2..n;
+
+int solutions[1..2];
+
+// 1- greedy ; 2- christofides
+forall(prev_alg in 1..2) {
+
+   int initial[i in Enodes] = initial_sol[prev_alg,i];
+
+   RandomPermutation perm(Inodes);
+
+   Solver<LS> ls();
+      var{int} rank[i in Enodes](ls,Nodes) := initial[i]; 
+      var{int} test[i in Enodes](ls,Nodes) := rank[i];
+      
+      ConstraintSystem<LS> D(ls);                                         // equivalent to Function T
+         forall(i in Nodes)
+            D.post(0 == graph[test[i],test[i%n+1]]);
+
+   ls.close();
+
+   int tabuDuration = 5;
+   int tabu[Nodes, Nodes] = 0;
+
+   int best_so_far = D.violations();
+   int it_best;
+   int x;
+   cout << "starting with " << rank << endl;
+   cout << "cost: " << best_so_far << endl;
+
+   int it = 0;
+   while(best_so_far > 0 && it < n){
+      selectMin(i in Inodes, j in Inodes: j > i+1 && tabu[i,j] < it, v = swap_2opt(D, rank, test, i, j)) (v) {
+         tabu[i,j] = it + tabuDuration;
+         tabu[j,i] = it + tabuDuration;
+         if (v < best_so_far) {
+            it_best = it;
+            best_so_far = v;
+            x = swap_2opt(D, rank, test, i, j);
+            forall(i in Inodes) rank[i] := test[i];
+         }
+      }
+      it++;
+   }
+
+   forall(i in Inodes) test[i] := rank[i];
+
+   int current = D.violations();
+   cout << endl;
+   cout << " --- LS solution (min Viols) to " << fname << endl;
+   cout << " best solution (found at iteration " << it_best << "):" << endl;   
+   cout << " ------ " << rank << endl;
+   cout << "      with cost: " << current << endl;
+
+   solutions[prev_alg] = current;
+}
+
+string outdir = "out/";
+string outName = outdir + fname.split(".")[0] + "_tabu_prev.txt";
+writeSolution(outName, solutions);
+
+}

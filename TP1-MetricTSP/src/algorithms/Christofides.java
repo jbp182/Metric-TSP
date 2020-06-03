@@ -1,6 +1,8 @@
 package algorithms;
 
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -13,7 +15,7 @@ public class Christofides {
 	private Graph originalGraph;
 	private Graph mst;
 
-	private int[] finalRoute;
+	private List<Integer> finalRoute;
 
 	private List<Integer> circuit;
 	
@@ -24,7 +26,7 @@ public class Christofides {
 
 		Prim p = new Prim(originalGraph);
 		mst = p.mstPrimGraph();
-		finalRoute = new int[g.numNodes() + 1];
+		finalRoute = new ArrayList<Integer>(g.numNodes() + 1);
 		circuit = new LinkedList<Integer>();
 		totalCost = 0;
 		
@@ -147,10 +149,10 @@ public class Christofides {
 		int origin = -1;
 		int destiny = -1;
 
-		for (int i = 0; i < finalRoute.length - 1; i++) {
-			origin = finalRoute[i];
+		for (int i = 0; i < originalGraph.numNodes(); i++) {
+			origin = finalRoute.get(i);
 
-			destiny = finalRoute[i + 1];
+			destiny = finalRoute.get(i + 1);
 			totalCost += originalGraph.getEdgeCost(origin, destiny);
 		}
 		
@@ -158,21 +160,30 @@ public class Christofides {
 	
 	private void makeRoute() {
 		boolean[] visited = new boolean[mst.numNodes()];
-		int i = 0;
 		for(int vertex: circuit) {
 			if(!visited[vertex]) {
-				finalRoute[i++] = vertex;
+				finalRoute.add(vertex);
 				visited[vertex] = true;
 			}
 		}
 		
-		finalRoute[i] = mst.root();	
+		finalRoute.add(mst.root());	
 		
 		
 	}
 	
-	public int[] getWay() {
-		return this.finalRoute.clone();
+	public Iterator<Integer> getWay() {
+		return finalRoute.iterator();
+	}
+	
+	public String getWayString() {
+		String perm = "";
+		Iterator<Integer> it = finalRoute.iterator();
+		while(it.hasNext()) {
+			int n = it.next() + 1;
+			perm += n + " ";
+		}
+		return perm;
 	}
 	
 

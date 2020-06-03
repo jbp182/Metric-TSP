@@ -1,0 +1,72 @@
+// converts brazil HK files into MAT format
+
+function string extend_name(string fname){
+  string [] dirs = System.getArgs();
+  string directory = dirs[3].suffix(2);
+  string ename = directory + "/" + fname;
+  return ename;
+}
+
+function void printMat(int [,] mat) {
+   int n = mat.getSize(0);
+   forall(i in 1..n){
+      forall(j in 1..n) cout << mat[i,j] << " ";
+      cout << endl;
+   }
+}
+
+function void storeMat(int [,] mat, string opt_file) {
+   int m = mat.getSize(0);
+   ofstream opt(opt_file); 
+   opt << mat.getSize(0) << " " << mat.getSize(0) << endl;
+   forall(i in mat.getRange(0)){
+      forall(j in mat.getRange(1))
+         opt << " " << mat[i,j];
+      opt << endl;
+   }
+   opt.close();
+}
+
+function int [,] readGR(string fName) {
+   ifstream ipt(fName); 
+   ipt.getLine(); // NAME
+   ipt.getLine(); // TYPE
+   ipt.getLine(); // COMMENT
+   int n = ipt.getLine().split(" ")[1].toInt();
+   ipt.getLine(); // EDGE_WEIGHT_TYPE
+   ipt.getLine(); // EDGE_WEIGHT_FORMAT
+   ipt.getLine(); // EDGE_WEIGHT_SECTION
+   cout << endl << n << endl << endl;
+   int mat[1..n,1..n] = 0;
+   bool endOfFile = false;
+   int i = 1;
+   int j = 1;
+   string [] line = ipt.getLine().split(" ");
+   while (! endOfFile){
+      int k = 1;
+      cout << line << endl;
+      while(k <= line.getUp()){
+         while (line[k].length() == 0) {k = k +1; cout << k << endl;}
+         mat[i,j] = line[k].toInt();
+         k = k + 1;
+         cout << i << "-" << j << ": " << mat[i,j] << endl;
+         if (j >= i) { i = i + 1; j = 1;}
+         else {j = j + 1;}
+      }
+      line = ipt.getLine().split(" ");
+      endOfFile = line[0] == "EOF";
+   }
+   forall(i in 1..n, j in i+1..n) mat[i,j] = mat[j,i];
+   return mat;
+}
+
+
+string ipt_fname = "hk48.tsp.txt";
+string ipt_file = extend_name(ipt_fname);
+int [,] mat = readGR(ipt_file);
+printMat(mat);
+
+string opt_fname = "hk48.txt";
+string opt_file = extend_name(opt_fname);
+storeMat(mat,opt_file);
+cout << "finished conversion " << endl;

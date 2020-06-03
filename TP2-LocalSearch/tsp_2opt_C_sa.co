@@ -1,0 +1,69 @@
+// traveling salesperson problem 
+// minimize constraint violations
+// neighbourhood - 2opt
+
+import cotls;
+include "file_io";
+pragma mode = randomized;
+
+include "anneal";  
+include "sasearch"; 
+
+
+forall(fname in tests3){
+string dtestname = "../TP1-MetricTSP/tests/";
+
+
+
+int[,] mat = readMatGraph(dtestname+fname);
+int n = mat.getSize(0);
+range Nodes = 1..n;
+int graph[Nodes,Nodes];
+forall(i in Nodes, j in Nodes: i!= j) 
+   graph[i,j] = mat[i,j];
+
+//printMat(graph);
+
+cout << " starting" << endl;
+
+
+range Enodes = 1..n+1;
+range Inodes = 2..n;
+range numTests = 1..10;
+
+int solutions[numTests];
+
+forall(times in numTests) {
+
+   RandomPermutation perm(Inodes);
+
+   Solver<LS> ls();
+   //assignment of values
+      var{int} rank[i in Enodes](ls,Nodes) := 1;
+      forall(i in Inodes) rank[i] := perm.get();
+      var{int} test[i in Enodes](ls,Nodes) := rank[i];
+
+      ConstraintSystem<LS> D(ls);                                            // equivalent to Function T
+         forall(i in Nodes)
+            D.post(0 == graph[test[i],test[i%n+1]]);
+
+   ls.close();
+
+   //cout << swap_2opt(D, rank, test, 1, 2) << endl;
+
+
+  // cout << "starting with " << rank << endl;
+   int solution = saSearch(D,Inodes,rank,test);
+
+   cout << endl;
+   cout << " --- LS solution (min Viols) to " << fname << endl;
+   cout << " ------ " << solution << endl;
+
+   solutions[times] = solution;
+}
+
+string outdir = "out/";
+string outName = outdir + fname.split(".")[0] + "_sa_rand.txt";
+writeSolutionRand(outName, solutions, numTests.getUp());
+cout <<"done"<< endl;
+}

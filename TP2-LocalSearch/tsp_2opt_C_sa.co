@@ -4,16 +4,17 @@
 
 import cotls;
 include "file_io";
-import qtvisual;
 pragma mode = randomized;
 
 include "anneal";  
 include "sasearch"; 
 
 
-
-string fname = "test_100_100_1.txt";
+forall(fname in tests){
 string dtestname = "../TP1-MetricTSP/tests/";
+
+
+
 int[,] mat = readMatGraph(dtestname+fname);
 int n = mat.getSize(0);
 range Nodes = 1..n;
@@ -53,10 +54,10 @@ forall(times in numTests) {
 
   // cout << "starting with " << rank << endl;
    int solution = saSearch(D,Inodes,rank,test);
-/*
+
    cout << endl;
    cout << " --- LS solution (min Viols) to " << fname << endl;
-   cout << " ------ " << solution << endl;*/
+   cout << " ------ " << solution << endl;
 
    solutions[times] = solution;
 }
@@ -64,3 +65,5 @@ forall(times in numTests) {
 string outdir = "out/";
 string outName = outdir + fname.split(".")[0] + "_sa_rand.txt";
 writeSolutionRand(outName, solutions, numTests.getUp());
+cout <<"done"<< endl;
+}

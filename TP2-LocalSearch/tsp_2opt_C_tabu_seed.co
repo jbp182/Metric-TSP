@@ -6,7 +6,17 @@ import cotls;
 include "file_io";
 
 
-string fname = "test_100_100_1.txt";
+function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
+   int n = rank.getSize();
+   forall(k in 1..i-1) test[k] := rank[k];
+   forall(k in j+1..n-1) test[k] := rank[k];
+   forall(k in i..j) test[k] := rank[i + j-k];
+   return D.violations();
+
+}
+
+
+forall(fname in tests){
 
 
 string dtestname = "../TP1-MetricTSP/tests/";
@@ -24,14 +34,7 @@ forall(i in Nodes, j in Nodes: i!= j)
 
 cout << " starting" << endl;
 
-function int swap_2opt(ConstraintSystem<LS> D, var{int}[] rank, var{int}[] test, int i, int j){
-   int n = rank.getSize();
-   forall(k in 1..i-1) test[k] := rank[k];
-   forall(k in j+1..n-1) test[k] := rank[k];
-   forall(k in i..j) test[k] := rank[i + j-k];
-   return D.violations();
 
-}
 
 range Enodes = 1..n+1;
 range Inodes = 2..n;
@@ -95,3 +98,4 @@ string outdir = "out/";
 string outName = outdir + fname.split(".")[0] + "_tabu_prev.txt";
 writeSolution(outName, solutions);
 
+}

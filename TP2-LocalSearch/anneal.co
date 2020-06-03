@@ -17,9 +17,7 @@ class SimulatedAnnealing {
   bool globalCondition() {return fc < maxfc;}
   
   bool localCondition(){ it = it+1; 
-   cout <<"iteration: " << it << endl;
-   cout <<"ch: " << ch << endl;
-
+  
     return it < maxit && ch < maxch;
     }
 

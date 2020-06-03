@@ -49,8 +49,10 @@ public class GraphGenerator {
 		Point[] points = new Point[numNodes];
 
 		int x = (int)(Math.random() * maxScale);
+
+		int y = (int)(Math.random() * maxScale);
 		for (int i = 0; i < numNodes; i++) {
-			int y = (int)(Math.random() * maxScale);
+			y +=  (int)(Math.random() * maxScale);
 			points[i] = new Point(x,y);
 		}
 		
@@ -93,33 +95,31 @@ public class GraphGenerator {
 		int k = 0;
 		// pin x0
 		//vertical edge 1
-		int x0 = (int)(Math.random() * maxScale);
-		for (; k < numPointInEdge; k++) {
-			int y = (int)(Math.random() * maxScale);
-			points[k] = new Point(x0,y);
-		}
-		//pin x1
-		// vertical edge 2
+		int x0 = 0;
 		int x1 = (int)(Math.random() * maxScale);
-		for (; k < numPointInEdge*2; k++) {
-			int y = (int)(Math.random() * maxScale);
-			points[k] = new Point(x1,y);
+		int y = 0;
+		
+		
+		for (; k < numPointInEdge; k++) {
+			y +=  (int)(Math.random() * maxScale);
+			points[k] = new Point(x0,y);
+			points[k+2*numPointInEdge] = new Point(x1,y);
+			
 		}
 		
 		//pin y0
 		//honrizontal edge 1
-		int y0 = (int)(Math.random() * maxScale);
-		for (; k < numPointInEdge*3; k++) {
-			int x = (int)(Math.random() * maxScale);
-			points[k] = new Point(x,y0);
+		
+		int interval = (x1-x0)/numPointInEdge;
+		int x = 0;
+		for (k = numPointInEdge; k < numPointInEdge*2; k++) {
+			x += interval; 
+			points[k] = new Point(x,0);
 		}
 		
-		
-
-		int y1 = (int)(Math.random() * maxScale);
-		for(; k < numNodes;k++) {
-			int x = (int)(Math.random() * maxScale);
-			points[k] = new Point(x,y1);
+		for(x = 0,k = 3*numPointInEdge; k < numNodes;k++) {
+			x+=interval;
+			points[k] = new Point(x,y);
 			
 		}
 		

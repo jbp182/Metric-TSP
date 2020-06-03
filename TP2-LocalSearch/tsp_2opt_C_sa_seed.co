@@ -11,7 +11,7 @@ include "anneal";
 include "sasearch"; 
 
 
-forall(fname in tests){
+forall(fname in tests3){
 
 
 

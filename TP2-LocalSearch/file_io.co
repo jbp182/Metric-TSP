@@ -4,6 +4,7 @@ import cotls;
 set{string} tests ={"test_50_100_0.txt","test_50_100_1.txt","test_50_10_0.txt","test_50_10_1.txt","test_50_4_0.txt","test_50_4_1.txt","test_50_4_2.txt","test_50_4_3.txt","test_50_50_0.txt","test_50_50_1.txt","test_50_50_2.txt","test_50_50_3.txt","test_50_50_4.txt","test_50_50_5.txt"};
 
 set{string} tests2 ={"test_50_500_0.txt","test_50_500_1.txt","test_50_1000_0.txt","test_50_1000_1.txt"};
+set{string} tests3 ={"test_50_200_0.txt","test_50_200_1.txt"};
 
 pragma mode = randomized;
 //pragma mode = deterministic;

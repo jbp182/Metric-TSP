@@ -1,0 +1,2 @@
+from_greedy, 300
+from_christofides, 297

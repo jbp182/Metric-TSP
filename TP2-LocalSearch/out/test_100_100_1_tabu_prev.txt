@@ -1,2 +1,0 @@
-from_greedy, 806
-from_christofides, 814

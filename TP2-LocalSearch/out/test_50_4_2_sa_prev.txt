@@ -1,0 +1,2 @@
+from_greedy, 81 76 81 67 81 76 67 67 81 81 
+from_christofides, 76 67 76 76 67 76 76 76 67 76 

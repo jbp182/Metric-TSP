@@ -33,6 +33,10 @@ public class CreateFinalTable {
 		
 		// for each test
 		String tp2dir = "../TP2-LocalSearch/out/";
+		FileWriter out = new FileWriter(new File( "Statistic_results.csv"));
+		out.write(",greedy,christ,greedy+tabu,christ+tabu,greedy+sa,christ+sa,tabu,sa,\n");
+		
+	
 		for (int i = 0; i < tests.length; i++) {
 			String testname = tests[i];
 			File tabuRand = new File(tp2dir + "sol/" + testname + "_tabu_rand_sol.txt");
@@ -102,8 +106,9 @@ public class CreateFinalTable {
 			insr.close();
 			insp.close();
 			
-			FileWriter out = new FileWriter(new File(testname + "_results.csv"));
-			out.write(",greedy,christ,greedy+tabu,christ+tabu,greedy+sa,christ+sa,tabu,sa,\n");
+			
+			out.write(testname);
+			out.write("\n");
 			
 			// best
 			out.write("best,");
@@ -126,10 +131,12 @@ public class CreateFinalTable {
 			for(double d : stdev)
 				out.write(d + ",");
 			out.write("\n");
-			
-			out.close();
+			out.write("\n");
+				
 			
 		}
+		out.close();
+		
 		
 		
 		

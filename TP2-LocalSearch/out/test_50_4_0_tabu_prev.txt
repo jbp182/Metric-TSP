@@ -1,0 +1,2 @@
+from_greedy, 6
+from_christofides, 6

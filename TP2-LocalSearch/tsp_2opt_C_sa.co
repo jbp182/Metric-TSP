@@ -10,7 +10,7 @@ include "anneal";
 include "sasearch"; 
 
 
-forall(fname in tests){
+forall(fname in tests3){
 string dtestname = "../TP1-MetricTSP/tests/";
 
 

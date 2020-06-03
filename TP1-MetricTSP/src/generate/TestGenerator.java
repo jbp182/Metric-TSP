@@ -8,17 +8,17 @@ public class TestGenerator {
 
 	public static void main(String[] args) {
 
-		int NUM_TESTS = 2;
+		int NUM_TESTS = 6;
 		int MAX_SCALE = 50;
 		String FILENAME = "tests/test";
-		int[] numNodesArray =  //{50};
-				{ 10, 50, 100, 500, 1000 };
+		int[] numNodesArray =  {50};
+				//{ 10, 50, 100, 500, 1000 };
 		int NUM_NODES = 0;
-		for (int i = 0; i < NUM_TESTS; i++) {
+		for (int i = 4; i < NUM_TESTS; i++) {
 			for (int j = 0; j < numNodesArray.length; j++) {
 				NUM_NODES = numNodesArray[j];
 				String name = String.format("%s_%d_%d_%d.txt", FILENAME, MAX_SCALE, NUM_NODES, i);
-				generateGraph(RANDOM, name, NUM_NODES, MAX_SCALE);
+				generateGraph(SQUARE, name, NUM_NODES, MAX_SCALE);
 			}
 		}
 		System.out.println("done");

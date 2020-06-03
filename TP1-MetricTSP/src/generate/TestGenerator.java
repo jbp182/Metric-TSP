@@ -7,9 +7,10 @@ public class TestGenerator {
 	public static final int SQUARE = 2;
 
 	public static void main(String[] args) {
-
-		int NUM_TESTS = 6;
-		int MAX_SCALE = 50;
+		
+		int NUM_TESTS = 1;
+		int NUM_NODES = 5;
+		int MAX_SCALE = 5;
 		String FILENAME = "tests/test";
 		int[] numNodesArray =  {50};
 				//{ 10, 50, 100, 500, 1000 };

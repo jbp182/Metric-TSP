@@ -66,8 +66,8 @@ forall(times in numTests) {
    int it = 0;
    while(best_so_far > 0 && it < n){
       selectMin(i in Inodes, j in Inodes: j > i+1 && tabu[i,j] < it, v = swap_2opt(D, rank, test, i, j)) (v) {
-         tabu[i,j] = tabu[i,j] + tabuDuration;
-         tabu[j,i] = tabu[j,i] + tabuDuration;
+         tabu[i,j] = it + tabuDuration;
+         tabu[j,i] = it + tabuDuration;
          if (v < best_so_far) {
             it_best = it;
             best_so_far = v;
